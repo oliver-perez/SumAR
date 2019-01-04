@@ -13,22 +13,20 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
+    var mainScene: SCNScene? = nil
+    var planeDidRender = Bool()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         // Set the view's delegate
         sceneView.delegate = self
+        self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         
         // Show statistics such as fps and timing information
-        sceneView.showsStatistics = true
-        
-        // Create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
-        
-        // Set the scene to the view
-        sceneView.scene = scene
+        //sceneView.showsStatistics = true
+        mainScene = SCNScene(named: "art.scnassets/ship.scn")!
+
+        sceneView.autoenablesDefaultLighting = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,9 +57,33 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         return node
     }
 */
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        if let touch = touches.first {
+            
+            let touchLocation = touch.location(in: sceneView)
+            
+            let results = sceneView.hitTest(touchLocation, types: .existingPlaneUsingExtent)
+            
+            if let hitResult = results.first {
+                
+                if let airplaneNode = mainScene?.rootNode.childNode(withName: "ship", recursively: true){
+                    airplaneNode.position = SCNVector3(
+                        x: hitResult.worldTransform.columns.3.x,
+                        y: hitResult.worldTransform.columns.3.y + 0.01,
+                        z: hitResult.worldTransform.columns.3.z)
+                    sceneView.scene.rootNode.addChildNode(airplaneNode)
+                }
+               
+            }
+            
+        }
+    }
+    
+    
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        if anchor is ARPlaneAnchor{
+        if (anchor is ARPlaneAnchor) && !planeDidRender {
             
             let planeAnchor = anchor as! ARPlaneAnchor
             let plane = SCNPlane(width: CGFloat(planeAnchor.extent.x), height: CGFloat(planeAnchor.extent.z))
@@ -82,9 +104,22 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             node.addChildNode(planeNode)
             
+            if let airplaneNode = mainScene?.rootNode.childNode(withName: "ship", recursively: true){
+                airplaneNode.position = SCNVector3(planeNode.presentation.position.x, planeNode.presentation.position.y, planeNode.presentation.position.z
+                )
+                
+                sceneView.scene.rootNode.addChildNode(airplaneNode)
+            }
+            
+            planeDidRender = true
+            
         } else{
             return
         }
+    }
+    
+    func setInitialPosition(){
+        
     }
     
     func session(_ session: ARSession, didFailWithError error: Error) {
