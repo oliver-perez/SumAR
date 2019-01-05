@@ -13,19 +13,21 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
-    var mainScene: SCNScene? = nil
+    var mainScene = SCNScene()
     var planeDidRender = Bool()
+    var airplaneNode = SCNNode()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Set the view's delegate
         sceneView.delegate = self
         self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
-        
         // Show statistics such as fps and timing information
         //sceneView.showsStatistics = true
         mainScene = SCNScene(named: "art.scnassets/ship.scn")!
-
+        if let airplane = mainScene.rootNode.childNode(withName: "ship", recursively: true){
+            airplaneNode = airplane
+        }
         sceneView.autoenablesDefaultLighting = true
     }
     
@@ -67,50 +69,40 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             if let hitResult = results.first {
                 
-                if let airplaneNode = mainScene?.rootNode.childNode(withName: "ship", recursively: true){
+                if let airplaneNode = mainScene.rootNode.childNode(withName: "ship", recursively: true){
                     airplaneNode.position = SCNVector3(
                         x: hitResult.worldTransform.columns.3.x,
                         y: hitResult.worldTransform.columns.3.y + 0.01,
                         z: hitResult.worldTransform.columns.3.z)
                     sceneView.scene.rootNode.addChildNode(airplaneNode)
                 }
-               
             }
-            
         }
     }
-    
     
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         if (anchor is ARPlaneAnchor) && !planeDidRender {
             
             let planeAnchor = anchor as! ARPlaneAnchor
-            let plane = SCNPlane(width: CGFloat(planeAnchor.extent.x), height: CGFloat(planeAnchor.extent.z))
+            let plane = SCNPlane(width: 0.5, height: 0.5)
             
             let planeNode = SCNNode()
-            
+
             planeNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
-            
             planeNode.transform = SCNMatrix4MakeRotation(-Float.pi/2, 1, 0, 0)
-            
+            airplaneNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
+
             let gridMaterial = SCNMaterial()
             
             gridMaterial.diffuse.contents = UIImage(named: "art.scnassets/grid.png")
             
             plane.materials = [gridMaterial]
-            
             planeNode.geometry = plane
             
             node.addChildNode(planeNode)
-            
-            if let airplaneNode = mainScene?.rootNode.childNode(withName: "ship", recursively: true){
-                airplaneNode.position = SCNVector3(planeNode.presentation.position.x, planeNode.presentation.position.y, planeNode.presentation.position.z
-                )
-                
-                sceneView.scene.rootNode.addChildNode(airplaneNode)
-            }
-            
+            node.addChildNode(airplaneNode)
+          //  movePlane()
             planeDidRender = true
             
         } else{
@@ -118,22 +110,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         }
     }
     
-    func setInitialPosition(){
-        
-    }
+//    func movePlane() {
+//        Timer.scheduledTimer(withTimeInterval: 1/24, repeats: true) { (timer) in
+//            self.airplaneNode.position = SCNVector3(self.airplaneNode.position.x, self.airplaneNode.position.y
+//            ,self.airplaneNode.position.z-0.001)
+//        }
+//    }
     
-    func session(_ session: ARSession, didFailWithError error: Error) {
-        // Present an error message to the user
-        
-    }
     
-    func sessionWasInterrupted(_ session: ARSession) {
-        // Inform the user that the session has been interrupted, for example, by presenting an overlay
-        
-    }
-    
-    func sessionInterruptionEnded(_ session: ARSession) {
-        // Reset tracking and/or remove existing anchors if consistent tracking is required
-        
-    }
 }
