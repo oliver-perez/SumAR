@@ -17,6 +17,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var planeDidRender = Bool()
     var airplaneNode = SCNNode()
     
+    
+    @IBOutlet weak var engineUI: UISlider!{
+        didSet{
+            engineUI.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Set the view's delegate
@@ -117,5 +124,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 //        }
 //    }
     
+    @IBAction func engineSlider(_ sender: UISlider) {
     
+    }
+    
+    @IBAction func rudderSlider(_ sender: UISlider) {
+        
+    }
 }
