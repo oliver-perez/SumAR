@@ -17,6 +17,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var planeDidRender = Bool()
     var airplaneNode = SCNNode()
     
+    var xPosition: Float = 0
+    var yPosition: Float = 0
+    
     
     @IBOutlet weak var heightSlider: UISlider!{
         didSet{
@@ -126,6 +129,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     @IBAction func rudderSlider(_ sender: UISlider) {
         
+        xPosition = sender.value * 5
+    
     }
     
     @IBAction func moveUpDown(_ sender: UISlider) {
@@ -134,8 +139,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     @IBAction func startEngine(_ sender: UIButton) {
         Timer.scheduledTimer(withTimeInterval: 1/24, repeats: true) { (timer) in
-            self.airplaneNode.position = SCNVector3(self.airplaneNode.position.x, self.airplaneNode.position.y
-            ,self.airplaneNode.position.z-0.001)
+            self.airplaneNode.localTranslate(by: SCNVector3(0,0,0.01))
+            self.airplaneNode.runAction(SCNAction.rotateBy(x: 0, y: CGFloat(Float.pi/180 * self.xPosition), z: 0, duration: 1/24))
         }
     }
 }
