@@ -18,9 +18,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var airplaneNode = SCNNode()
     
     
-    @IBOutlet weak var engineUI: UISlider!{
+    @IBOutlet weak var heightSlider: UISlider!{
         didSet{
-            engineUI.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
+            heightSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
         }
     }
     
@@ -124,11 +124,18 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 //        }
 //    }
     
-    @IBAction func engineSlider(_ sender: UISlider) {
-    
-    }
-    
     @IBAction func rudderSlider(_ sender: UISlider) {
         
+    }
+    
+    @IBAction func moveUpDown(_ sender: UISlider) {
+        
+    }
+    
+    @IBAction func startEngine(_ sender: UIButton) {
+        Timer.scheduledTimer(withTimeInterval: 1/24, repeats: true) { (timer) in
+            self.airplaneNode.position = SCNVector3(self.airplaneNode.position.x, self.airplaneNode.position.y
+            ,self.airplaneNode.position.z-0.001)
+        }
     }
 }
