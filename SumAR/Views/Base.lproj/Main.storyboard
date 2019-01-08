@@ -28,7 +28,7 @@
                                     <constraint firstAttribute="width" constant="114" id="VIz-SG-m4I"/>
                                 </constraints>
                                 <connections>
-                                    <action selector="rudderSlider:" destination="BV1-FR-VrT" eventType="valueChanged" id="4y2-GX-OPJ"/>
+                                    <action selector="moveRightLeft:" destination="BV1-FR-VrT" eventType="valueChanged" id="3qv-vO-w3v"/>
                                 </connections>
                             </slider>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-0.10000000000000001" maxValue="0.10000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="NiF-yd-1dR">
@@ -48,6 +48,13 @@
                                     <action selector="startEngine:" destination="BV1-FR-VrT" eventType="touchUpInside" id="RSk-TV-ck0"/>
                                 </connections>
                             </button>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Won-3d-ex6">
+                                <rect key="frame" x="247" y="684" width="118" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="speedControl:" destination="BV1-FR-VrT" eventType="valueChanged" id="0wc-ce-vI8"/>
+                                </connections>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -63,6 +70,7 @@
                         <viewLayoutGuide key="safeArea" id="fQZ-KI-GVf"/>
                     </view>
                     <connections>
+                        <outlet property="engineSlider" destination="Won-3d-ex6" id="cIP-wK-o4g"/>
                         <outlet property="heightSlider" destination="NiF-yd-1dR" id="EBp-I1-rXK"/>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
                     </connections>

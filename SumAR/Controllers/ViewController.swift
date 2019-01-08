@@ -19,6 +19,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     var xPosition: Float = 0
     var yPosition: Float = 0
+    var zPosition: Float = 0.5
     
     
     @IBOutlet weak var heightSlider: UISlider!{
@@ -26,6 +27,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             heightSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
         }
     }
+    
+    @IBOutlet weak var engineSlider: UISlider!{
+        didSet{
+            engineSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
+        }
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,20 +135,31 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 //        }
 //    }
     
-    @IBAction func rudderSlider(_ sender: UISlider) {
+    @IBAction func moveRightLeft(_ sender: UISlider) {
         
-        xPosition = sender.value * 5
+        xPosition = -sender.value * 2.5
     
     }
     
     @IBAction func moveUpDown(_ sender: UISlider) {
         
+        yPosition = sender.value / 10
+        
     }
+    
+
+    @IBAction func speedControl(_ sender: UISlider) {
+        
+        zPosition = sender.value
+        
+    }
+    
     
     @IBAction func startEngine(_ sender: UIButton) {
         Timer.scheduledTimer(withTimeInterval: 1/24, repeats: true) { (timer) in
-            self.airplaneNode.localTranslate(by: SCNVector3(0,0,0.01))
+            self.airplaneNode.localTranslate(by: SCNVector3(0,0,0.01 * self.zPosition))
             self.airplaneNode.runAction(SCNAction.rotateBy(x: 0, y: CGFloat(Float.pi/180 * self.xPosition), z: 0, duration: 1/24))
+            self.airplaneNode.runAction(SCNAction.moveBy(x: 0, y: CGFloat(self.yPosition), z: 0, duration: 1/24))
         }
     }
 }
