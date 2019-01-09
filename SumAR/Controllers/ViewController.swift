@@ -12,17 +12,8 @@ import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
 
+    // MARK: - Outlets
     @IBOutlet var sceneView: ARSCNView!
-    var mainScene = SCNScene()
-    var planeDidRender = Bool()
-    var airplaneNode = SCNNode()
-    
-    var xPosition: Float = 0
-    var yPosition: Float = 0
-    var zPosition: Float = 0.5
-    
-    var xAngle: Float = 0
-    var timerVerticalMovements = Timer()
 
     @IBOutlet weak var heightSlider: UISlider!{
         didSet{
@@ -36,6 +27,21 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         }
     }
     
+    @IBOutlet weak var sumLabel: UILabel!
+    
+    // MARK: - Variables
+    var mainScene = SCNScene()
+    var planeDidRender = Bool()
+    var airplaneNode = SCNNode()
+    
+    var xPosition: Float = 0
+    var yPosition: Float = 0
+    var zPosition: Float = 0.5
+    
+    var xAngle: Float = 0
+    var timerVerticalMovements = Timer()
+    
+    // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Set the view's delegate
@@ -48,6 +54,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             airplaneNode = airplane
         }
         sceneView.autoenablesDefaultLighting = true
+        numberGenerator()
+        obtainAddends()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,7 +77,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
 
     // MARK: - ARSCNViewDelegate
-
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if let touch = touches.first {
@@ -121,7 +128,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         }
     }
     
-
+    // MARK: - Actions
     @IBAction func moveRightLeft(_ sender: UISlider) {
         
         xPosition = -sender.value * 2.5
@@ -172,6 +179,14 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             self.airplaneNode.eulerAngles.y += Float.pi/180 * self.xPosition
             self.airplaneNode.eulerAngles.x += Float.pi/180 * self.yPosition
         }
+    }
+    
+    // MARK: - Display Sum
+    func obtainAddends(){
+        
+        let sum: String = randomSum(0)
+        sumLabel.text = sum
+        
     }
     
 }
