@@ -21,7 +21,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var yPosition: Float = 0
     var zPosition: Float = 0.5
     
-    
+    var xAngle: Float = 0
+    var timerVerticalMovements = Timer()
+
     @IBOutlet weak var heightSlider: UISlider!{
         didSet{
             heightSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
@@ -34,14 +36,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         }
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Set the view's delegate
         sceneView.delegate = self
         self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         // Show statistics such as fps and timing information
-        //sceneView.showsStatistics = true
+        sceneView.showsStatistics = true
         mainScene = SCNScene(named: "art.scnassets/ship.scn")!
         if let airplane = mainScene.rootNode.childNode(withName: "ship", recursively: true){
             airplaneNode = airplane
@@ -68,15 +69,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
 
     // MARK: - ARSCNViewDelegate
-    
-/*
-    // Override to create and configure nodes for anchors added to the view's session.
-    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-        let node = SCNNode()
-     
-        return node
-    }
-*/
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if let touch = touches.first {
@@ -128,38 +121,57 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         }
     }
     
-//    func movePlane() {
-//        Timer.scheduledTimer(withTimeInterval: 1/24, repeats: true) { (timer) in
-//            self.airplaneNode.position = SCNVector3(self.airplaneNode.position.x, self.airplaneNode.position.y
-//            ,self.airplaneNode.position.z-0.001)
-//        }
-//    }
-    
+
     @IBAction func moveRightLeft(_ sender: UISlider) {
         
         xPosition = -sender.value * 2.5
     
     }
     
+    @IBAction func resetHorizontalDirection(_ sender: UISlider) {
+        
+        sender.value = 0
+        xPosition = 0
+    }
+    
+    
     @IBAction func moveUpDown(_ sender: UISlider) {
         
-        yPosition = sender.value / 10
-        
+        yPosition = -sender.value * 2
+        timerVerticalMovements.invalidate()
     }
     
-
+    
+    @IBAction func resetMoveUpDown(_ sender: UISlider) {
+        
+       sender.value = 0
+        
+       timerVerticalMovements = Timer.scheduledTimer(withTimeInterval: 1/24, repeats: true) { (timer) in
+            if self.airplaneNode.eulerAngles.x > 0 {
+                self.airplaneNode.eulerAngles.x -= Float.pi/180 * 1 * self.zPosition
+            }else {
+                self.airplaneNode.eulerAngles.x += Float.pi/180 * 1 * self.zPosition
+            }
+            if abs(self.airplaneNode.eulerAngles.x) < Float.pi/180 * 1 {
+               self.airplaneNode.eulerAngles.x = 0
+               timer.invalidate()
+            }
+        }
+        
+        yPosition = sender.value
+      
+    }
+    
     @IBAction func speedControl(_ sender: UISlider) {
-        
         zPosition = sender.value
-        
     }
-    
     
     @IBAction func startEngine(_ sender: UIButton) {
         Timer.scheduledTimer(withTimeInterval: 1/24, repeats: true) { (timer) in
             self.airplaneNode.localTranslate(by: SCNVector3(0,0,0.01 * self.zPosition))
-            self.airplaneNode.runAction(SCNAction.rotateBy(x: 0, y: CGFloat(Float.pi/180 * self.xPosition), z: 0, duration: 1/24))
-            self.airplaneNode.runAction(SCNAction.moveBy(x: 0, y: CGFloat(self.yPosition), z: 0, duration: 1/24))
+            self.airplaneNode.eulerAngles.y += Float.pi/180 * self.xPosition
+            self.airplaneNode.eulerAngles.x += Float.pi/180 * self.yPosition
         }
     }
+    
 }
