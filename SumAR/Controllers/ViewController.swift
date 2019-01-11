@@ -33,7 +33,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var mainScene = SCNScene()
     var planeDidRender = Bool()
     var airplaneNode = SCNNode()
-    
+    var ringNode = SCNNode()
+
     var xPosition: Float = 0
     var yPosition: Float = 0
     var zPosition: Float = 0.5
@@ -46,6 +47,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         super.viewDidLoad()
         // Set the view's delegate
         sceneView.delegate = self
+        sceneView.scene.physicsWorld.contactDelegate = self
+        
         self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
@@ -53,6 +56,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         if let airplane = mainScene.rootNode.childNode(withName: "ship", recursively: true){
             airplaneNode = airplane
         }
+        
+        if let ring = mainScene.rootNode.childNode(withName: "torus", recursively: true){
+            ringNode = ring
+        }
+        
         sceneView.autoenablesDefaultLighting = true
         numberGenerator()
         obtainAddends()
@@ -118,8 +126,21 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             plane.materials = [gridMaterial]
             planeNode.geometry = plane
             
+            let body = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(node: airplaneNode))
+            airplaneNode.physicsBody = body
+            airplaneNode.physicsBody?.categoryBitMask = CollisionCategory.airplaneCategory.rawValue
+            airplaneNode.physicsBody?.collisionBitMask = CollisionCategory.ringCategory.rawValue
+            airplaneNode.physicsBody?.contactTestBitMask = CollisionCategory.ringCategory.rawValue
+            
+            let bodyRing = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: ringNode))
+            ringNode.physicsBody = bodyRing
+            ringNode.physicsBody?.categoryBitMask = CollisionCategory.ringCategory.rawValue
+            ringNode.physicsBody?.collisionBitMask = CollisionCategory.airplaneCategory.rawValue
+            ringNode.physicsBody?.contactTestBitMask = CollisionCategory.airplaneCategory.rawValue
+
             node.addChildNode(planeNode)
             node.addChildNode(airplaneNode)
+            node.addChildNode(ringNode)
           //  movePlane()
             planeDidRender = true
             
@@ -187,6 +208,21 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let sum: String = randomSum(0)
         sumLabel.text = sum
         
+    }
+    
+    struct CollisionCategory: OptionSet {
+        let rawValue: Int
+        static let airplaneCategory  = CollisionCategory(rawValue: 1 << 0)
+        static let ringCategory = CollisionCategory(rawValue: 1 << 1)
+    }
+}
+
+
+extension ViewController: SCNPhysicsContactDelegate{
+    
+    func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
+        print("** Collision!! " + contact.nodeA.name! + " hit " + contact.nodeB.name!)
+
     }
     
 }
