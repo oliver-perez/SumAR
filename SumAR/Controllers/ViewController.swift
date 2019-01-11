@@ -239,6 +239,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             node.name = "ring\(index)"
             node.geometry = torus
             
+            let body = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: node))
+            node.physicsBody = body
+            node.physicsBody?.categoryBitMask = CollisionCategory.ringCategory.rawValue
+            node.physicsBody?.contactTestBitMask = CollisionCategory.airplaneCategory.rawValue
+            node.physicsBody?.collisionBitMask = CollisionCategory.airplaneCategory.rawValue
+            
             sceneView.scene.rootNode.addChildNode(node)
             
         }
