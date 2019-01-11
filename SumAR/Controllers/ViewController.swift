@@ -12,17 +12,8 @@ import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
 
+    // MARK: - Outlets
     @IBOutlet var sceneView: ARSCNView!
-    var mainScene = SCNScene()
-    var planeDidRender = Bool()
-    var airplaneNode = SCNNode()
-    
-    var xPosition: Float = 0
-    var yPosition: Float = 0
-    var zPosition: Float = 0.5
-    
-    var xAngle: Float = 0
-    var timerVerticalMovements = Timer()
 
     @IBOutlet weak var heightSlider: UISlider!{
         didSet{
@@ -36,10 +27,28 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         }
     }
     
+    @IBOutlet weak var sumLabel: UILabel!
+    
+    // MARK: - Variables
+    var mainScene = SCNScene()
+    var planeDidRender = Bool()
+    var airplaneNode = SCNNode()
+    var ringNode = SCNNode()
+
+    var xPosition: Float = 0
+    var yPosition: Float = 0
+    var zPosition: Float = 0.5
+    
+    var xAngle: Float = 0
+    var timerVerticalMovements = Timer()
+    
+    // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Set the view's delegate
         sceneView.delegate = self
+        sceneView.scene.physicsWorld.contactDelegate = self
+        
         self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
@@ -47,7 +56,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         if let airplane = mainScene.rootNode.childNode(withName: "ship", recursively: true){
             airplaneNode = airplane
         }
+        
+        if let ring = mainScene.rootNode.childNode(withName: "torus", recursively: true){
+            ringNode = ring
+        }
+        
         sceneView.autoenablesDefaultLighting = true
+        numberGenerator()
+        obtainAddends()
+        addRingsNodes()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,7 +86,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
 
     // MARK: - ARSCNViewDelegate
-
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if let touch = touches.first {
@@ -111,8 +127,21 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             plane.materials = [gridMaterial]
             planeNode.geometry = plane
             
+            let body = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(node: airplaneNode))
+            airplaneNode.physicsBody = body
+            airplaneNode.physicsBody?.categoryBitMask = CollisionCategory.airplaneCategory.rawValue
+            airplaneNode.physicsBody?.collisionBitMask = CollisionCategory.ringCategory.rawValue
+            airplaneNode.physicsBody?.contactTestBitMask = CollisionCategory.ringCategory.rawValue
+            
+            let bodyRing = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: ringNode))
+            ringNode.physicsBody = bodyRing
+            ringNode.physicsBody?.categoryBitMask = CollisionCategory.ringCategory.rawValue
+            ringNode.physicsBody?.collisionBitMask = CollisionCategory.airplaneCategory.rawValue
+            ringNode.physicsBody?.contactTestBitMask = CollisionCategory.airplaneCategory.rawValue
+
             node.addChildNode(planeNode)
             node.addChildNode(airplaneNode)
+            node.addChildNode(ringNode)
           //  movePlane()
             planeDidRender = true
             
@@ -121,7 +150,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         }
     }
     
-
+    // MARK: - Actions
     @IBAction func moveRightLeft(_ sender: UISlider) {
         
         xPosition = -sender.value * 2.5
@@ -172,6 +201,56 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             self.airplaneNode.eulerAngles.y += Float.pi/180 * self.xPosition
             self.airplaneNode.eulerAngles.x += Float.pi/180 * self.yPosition
         }
+    }
+    
+    // MARK: - Display Sum
+    func obtainAddends(){
+        
+        let sum: String = randomSum(0)
+        sumLabel.text = sum
+        
+    }
+    
+    struct CollisionCategory: OptionSet {
+        let rawValue: Int
+        static let airplaneCategory  = CollisionCategory(rawValue: 1 << 0)
+        static let ringCategory = CollisionCategory(rawValue: 1 << 1)
+    }
+    
+    func addRingsNodes(){
+        var angle:Float = 0.0
+        let radius:Float = 4.0
+        let angleIncrement:Float = Float.pi * 2.0 / 10.0
+        
+        for index in 0..<10 {
+            let node = SCNNode()
+            
+            let torus = SCNTorus(ringRadius: 0.4, pipeRadius: 0.05)
+            let color = UIColor(hue: 25.0 / 359.0, saturation: 0.8, brightness: 0.7, alpha: 1.0)
+            torus.firstMaterial?.diffuse.contents = color
+            
+            let x = radius * cos(angle)
+            let z = radius * sin(angle)
+            
+            node.position = SCNVector3(x: x, y: 0, z: z)
+            node.eulerAngles.x += Float.pi/2
+            angle += angleIncrement
+            
+            node.name = "ring\(index)"
+            node.geometry = torus
+            
+            sceneView.scene.rootNode.addChildNode(node)
+            
+        }
+    }
+}
+
+
+extension ViewController: SCNPhysicsContactDelegate{
+    
+    func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
+        print("** Collision!! " + contact.nodeA.name! + " hit " + contact.nodeB.name!)
+
     }
     
 }
