@@ -64,6 +64,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.autoenablesDefaultLighting = true
         numberGenerator()
         obtainAddends()
+        addRingsNodes()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -214,6 +215,33 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let rawValue: Int
         static let airplaneCategory  = CollisionCategory(rawValue: 1 << 0)
         static let ringCategory = CollisionCategory(rawValue: 1 << 1)
+    }
+    
+    func addRingsNodes(){
+        var angle:Float = 0.0
+        let radius:Float = 4.0
+        let angleIncrement:Float = Float.pi * 2.0 / 10.0
+        
+        for index in 0..<10 {
+            let node = SCNNode()
+            
+            let torus = SCNTorus(ringRadius: 0.4, pipeRadius: 0.05)
+            let color = UIColor(hue: 25.0 / 359.0, saturation: 0.8, brightness: 0.7, alpha: 1.0)
+            torus.firstMaterial?.diffuse.contents = color
+            
+            let x = radius * cos(angle)
+            let z = radius * sin(angle)
+            
+            node.position = SCNVector3(x: x, y: 0, z: z)
+            node.eulerAngles.x += Float.pi/2
+            angle += angleIncrement
+            
+            node.name = "ring\(index)"
+            node.geometry = torus
+            
+            sceneView.scene.rootNode.addChildNode(node)
+            
+        }
     }
 }
 
