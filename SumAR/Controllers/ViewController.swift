@@ -65,6 +65,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         numberGenerator()
         obtainAddends()
         addRingsNodes()
+        addNumbersNodes()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -232,8 +233,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             let x = radius * cos(angle)
             let z = radius * sin(angle)
             
-            node.position = SCNVector3(x: x, y: 0, z: z)
-            node.eulerAngles.x += Float.pi/2
+            node.position = SCNVector3(x: x, y: 0.5, z: z)
+            //node.eulerAngles.y += Float.pi * 2.0 / 10.0
+            node.eulerAngles.x = Float.pi/2
             angle += angleIncrement
             
             node.name = "ring\(index)"
@@ -247,6 +249,31 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             sceneView.scene.rootNode.addChildNode(node)
             
+        }
+    }
+    
+    func addNumbersNodes(){
+        var angle:Float = 0.0
+        let radius:Float = 4.0
+        let angleIncrement:Float = Float.pi * 2.0 / 10.0
+        
+        for index in 0..<10 {
+            let nodeText = SCNNode()
+            
+            let text = SCNText(string: "10", extrusionDepth: 0.1)
+            text.font = UIFont.systemFont(ofSize: 0.5)
+            text.flatness = 0.01
+            text.firstMaterial?.diffuse.contents = UIColor.white
+            
+            let x = radius * cos(angle)
+            let z = radius * sin(angle)
+            
+            nodeText.position = SCNVector3(x: x, y: 0, z: z)
+            angle += angleIncrement
+            
+            nodeText.geometry = text
+            
+            sceneView.scene.rootNode.addChildNode(nodeText)
         }
     }
 }
