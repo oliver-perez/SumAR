@@ -221,9 +221,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     func addRingsNodes(){
         var angle:Float = 0.0
         let radius:Float = 4.0
-        let angleIncrement:Float = Float.pi * 2.0 / 10.0
+        let angleIncrement:Float = Float.pi * 2.0 / 4.0
         
-        for index in 0..<10 {
+        for index in 0..<4 {
             let node = SCNNode()
             
             let torus = SCNTorus(ringRadius: 0.4, pipeRadius: 0.05)
@@ -255,9 +255,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     func addNumbersNodes(){
         var angle:Float = 0.0
         let radius:Float = 4.0
-        let angleIncrement:Float = Float.pi * 2.0 / 10.0
+        let angleIncrement:Float = Float.pi * 2.0 / 4.0
+        let grades: [Float] = [-Float.pi/2.0,-Float.pi,Float.pi/2,0.0]
         
-        for index in 0..<10 {
+        for index in 0..<4 {
             let nodeText = SCNNode()
             
             let text = SCNText(string: "10", extrusionDepth: 0.1)
@@ -269,6 +270,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             let z = radius * sin(angle)
             
             nodeText.position = SCNVector3(x: x, y: 0, z: z)
+            nodeText.eulerAngles.y = grades[index]
             angle += angleIncrement
             
             nodeText.geometry = text
