@@ -9,6 +9,7 @@
 import UIKit
 import SceneKit
 import ARKit
+import GameplayKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
 
@@ -64,8 +65,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.autoenablesDefaultLighting = true
         numberGenerator()
         obtainAddends()
-        addRingsNodes()
-        addNumbersNodes()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -207,8 +206,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     // MARK: - Display Sum
     func obtainAddends(){
         
-        let sum: String = randomSum(0)
-        sumLabel.text = sum
+        let sum: Level = randomSum(0)
+        sumLabel.text = "\(sum.minNum) + \(sum.maxNum)"
+        addRingsNodes()
+        addNumbersNodes(goal: sum.goal)
         
     }
     
@@ -234,7 +235,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             let z = radius * sin(angle)
             
             node.position = SCNVector3(x: x, y: 0.5, z: z)
-            //node.eulerAngles.y += Float.pi * 2.0 / 10.0
             node.eulerAngles.x = Float.pi/2
             angle += angleIncrement
             
@@ -252,16 +252,25 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         }
     }
     
-    func addNumbersNodes(){
+    func addNumbersNodes(goal: Int){
         var angle:Float = 0.0
         let radius:Float = 4.0
         let angleIncrement:Float = Float.pi * 2.0 / 4.0
-        let grades: [Float] = [-Float.pi/2.0,-Float.pi,Float.pi/2,0.0]
+        let grades: [Float] = [-Float.pi/2.0, -Float.pi, Float.pi/2, 0.0]
+        let randomChoice = GKRandomDistribution(lowestValue: 0, highestValue: 3)
+        let randomNode: Int = randomChoice.nextInt()
         
         for index in 0..<4 {
             let nodeText = SCNNode()
+            var text = SCNText()
+            if randomNode == index {
+                text = SCNText(string: String(goal), extrusionDepth: 0.1)
+            } else {
+                let randomChoiceGoal = GKRandomDistribution(lowestValue: 1, highestValue: 10)
+                let randomGoal: Int = randomChoiceGoal.nextInt()
+                text = SCNText(string: String(randomGoal), extrusionDepth: 0.1)
+            }
             
-            let text = SCNText(string: "10", extrusionDepth: 0.1)
             text.font = UIFont.systemFont(ofSize: 0.5)
             text.flatness = 0.01
             text.firstMaterial?.diffuse.contents = UIColor.white
