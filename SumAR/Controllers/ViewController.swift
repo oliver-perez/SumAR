@@ -30,11 +30,16 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     @IBOutlet weak var sumLabel: UILabel!
     
+    @IBOutlet weak var scoreLabel: UILabel!
+    
     // MARK: - Variables
     var mainScene = SCNScene()
     var planeDidRender = Bool()
     var airplaneNode = SCNNode()
-    var ringNode = SCNNode()
+    var ringNodes = [SCNNode]()
+    var numberNodes = [SCNNode]()
+    
+    var currentLevel = (goal: 0,numOne: 0, numTwo: 0)
 
     var xPosition: Float = 0
     var yPosition: Float = 0
@@ -42,6 +47,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     var xAngle: Float = 0
     var timerVerticalMovements = Timer()
+    
+    var score: Int = 0
+    var nextSum: Bool = false
     
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -53,15 +61,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
+        
         mainScene = SCNScene(named: "art.scnassets/ship.scn")!
         if let airplane = mainScene.rootNode.childNode(withName: "ship", recursively: true){
             airplaneNode = airplane
         }
-        
-        if let ring = mainScene.rootNode.childNode(withName: "torus", recursively: true){
-            ringNode = ring
-        }
-        
+
         sceneView.autoenablesDefaultLighting = true
         numberGenerator()
         obtainAddends()
@@ -132,17 +137,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             airplaneNode.physicsBody?.categoryBitMask = CollisionCategory.airplaneCategory.rawValue
             airplaneNode.physicsBody?.collisionBitMask = CollisionCategory.ringCategory.rawValue
             airplaneNode.physicsBody?.contactTestBitMask = CollisionCategory.ringCategory.rawValue
-            
-            let bodyRing = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: ringNode))
-            ringNode.physicsBody = bodyRing
-            ringNode.physicsBody?.categoryBitMask = CollisionCategory.ringCategory.rawValue
-            ringNode.physicsBody?.collisionBitMask = CollisionCategory.airplaneCategory.rawValue
-            ringNode.physicsBody?.contactTestBitMask = CollisionCategory.airplaneCategory.rawValue
 
             node.addChildNode(planeNode)
             node.addChildNode(airplaneNode)
-            node.addChildNode(ringNode)
-          //  movePlane()
+            
+            addRingsNodes()
+
             planeDidRender = true
             
         } else{
@@ -207,8 +207,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     func obtainAddends(){
         
         let sum: Level = randomSum(0)
+        currentLevel.goal = sum.goal
+        currentLevel.numOne = sum.minNum
+        currentLevel.numTwo = sum.maxNum
         sumLabel.text = "\(sum.minNum) + \(sum.maxNum)"
-        addRingsNodes()
+        
         addNumbersNodes(goal: sum.goal)
         
     }
@@ -238,7 +241,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             node.eulerAngles.x = Float.pi/2
             angle += angleIncrement
             
-            node.name = "ring\(index)"
+            node.name = "\(index)"
             node.geometry = torus
             
             let body = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: node))
@@ -247,6 +250,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             node.physicsBody?.contactTestBitMask = CollisionCategory.airplaneCategory.rawValue
             node.physicsBody?.collisionBitMask = CollisionCategory.airplaneCategory.rawValue
             
+            ringNodes.append(node)
             sceneView.scene.rootNode.addChildNode(node)
             
         }
@@ -265,10 +269,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             var text = SCNText()
             if randomNode == index {
                 text = SCNText(string: String(goal), extrusionDepth: 0.1)
+                nodeText.name = String(goal)
             } else {
                 let randomChoiceGoal = GKRandomDistribution(lowestValue: 1, highestValue: 10)
                 let randomGoal: Int = randomChoiceGoal.nextInt()
                 text = SCNText(string: String(randomGoal), extrusionDepth: 0.1)
+                nodeText.name = String(randomGoal)
             }
             
             text.font = UIFont.systemFont(ofSize: 0.5)
@@ -284,6 +290,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             nodeText.geometry = text
             
+            numberNodes.append(nodeText)
             sceneView.scene.rootNode.addChildNode(nodeText)
         }
     }
@@ -293,8 +300,51 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 extension ViewController: SCNPhysicsContactDelegate{
     
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
+        
         print("** Collision!! " + contact.nodeA.name! + " hit " + contact.nodeB.name!)
-
+        if !nextSum {
+            if contact.nodeA.physicsBody?.categoryBitMask == CollisionCategory.ringCategory.rawValue
+                || contact.nodeB.physicsBody?.categoryBitMask == CollisionCategory.ringCategory.rawValue {
+                
+                if contact.nodeA.name! != "ship" {
+                    if numberNodes[Int(contact.nodeA.name!)!].name == String(currentLevel.goal) {
+                        nextSum = true
+                        print("* Suma correcta *")
+                        score += 10
+                        nextOperation()
+                    } else {
+                        print("··· Incorrecto ···")
+                    }
+                } else if contact.nodeB.name! != "ship" {
+                    if numberNodes[Int(contact.nodeB.name!)!].name == String(currentLevel.goal) {
+                        nextSum = true
+                        print("* Suma correcta *")
+                        score += 10
+                        nextOperation()
+                    } else {
+                        print("··· Incorrecto ···")
+                    }
+                }
+     
+            }
+        }
     }
+    
+    func nextOperation(){
+        DispatchQueue.main.async {
+            for i in 0..<self.numberNodes.count {
+                self.numberNodes[i].removeFromParentNode()
+            }
+            self.numberNodes.removeAll()
+            self.scoreLabel.text = String(self.score)
+            self.sumLabel.text = "Congratulations!"
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: {
+            self.obtainAddends()
+            self.nextSum = false
+        })
+    }
+
     
 }

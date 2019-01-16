@@ -55,8 +55,15 @@
                                     <action selector="speedControl:" destination="BV1-FR-VrT" eventType="valueChanged" id="0wc-ce-vI8"/>
                                 </connections>
                             </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZhC-9Y-jaM">
+                                <rect key="frame" x="27" y="39" width="150" height="92"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="71"/>
+                                <color key="textColor" red="0.0" green="0.99143940210000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Suma" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1nc-OY-DBb">
-                                <rect key="frame" x="417" y="565" width="190" height="50"/>
+                                <rect key="frame" x="322" y="547" width="381" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="34"/>
                                 <color key="textColor" red="0.46202266219999999" green="0.83828371759999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -87,12 +94,13 @@
                         <outlet property="engineSlider" destination="Won-3d-ex6" id="cIP-wK-o4g"/>
                         <outlet property="heightSlider" destination="NiF-yd-1dR" id="EBp-I1-rXK"/>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
+                        <outlet property="scoreLabel" destination="ZhC-9Y-jaM" id="gIP-vT-9cN"/>
                         <outlet property="sumLabel" destination="1nc-OY-DBb" id="t4H-Nb-57t"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="107.8125" y="75"/>
+            <point key="canvasLocation" x="-38.0859375" y="46.875"/>
         </scene>
     </scenes>
 </document>
