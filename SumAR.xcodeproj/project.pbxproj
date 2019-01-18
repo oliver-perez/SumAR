@@ -17,6 +17,8 @@
 		B19BD2A621DFC8BE006E12CB /* SumARUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19BD2A521DFC8BE006E12CB /* SumARUITests.swift */; };
 		B19BD2B821DFDF9A006E12CB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B19BD2B721DFDF9A006E12CB /* Default-568h@2x.png */; };
 		C026825521E59E1D0078FFDA /* LevelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C026825421E59E1D0078FFDA /* LevelManager.swift */; };
+		C05C264621EEE205003BCCE6 /* stars.scnp in Resources */ = {isa = PBXBuildFile; fileRef = C05C264421EEE205003BCCE6 /* stars.scnp */; };
+		C05C264721EEE205003BCCE6 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = C05C264521EEE205003BCCE6 /* star.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,8 @@
 		B19BD2A721DFC8BE006E12CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B19BD2B721DFDF9A006E12CB /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		C026825421E59E1D0078FFDA /* LevelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelManager.swift; sourceTree = "<group>"; };
+		C05C264421EEE205003BCCE6 /* stars.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = stars.scnp; sourceTree = "<group>"; };
+		C05C264521EEE205003BCCE6 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +108,7 @@
 		B19BD28221DFC8BD006E12CB /* SumAR */ = {
 			isa = PBXGroup;
 			children = (
+				C05C264221EEE1D0003BCCE6 /* ParticleSystem */,
 				B19BD2C321DFE51D006E12CB /* Models */,
 				B19BD2B421DFDF22006E12CB /* Views */,
 				B19BD2B321DFDF10006E12CB /* Controllers */,
@@ -156,6 +161,31 @@
 			children = (
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		C05C264221EEE1D0003BCCE6 /* ParticleSystem */ = {
+			isa = PBXGroup;
+			children = (
+				C05C264821EEE328003BCCE6 /* Confetti */,
+				C05C264321EEE1DF003BCCE6 /* Stars */,
+			);
+			path = ParticleSystem;
+			sourceTree = "<group>";
+		};
+		C05C264321EEE1DF003BCCE6 /* Stars */ = {
+			isa = PBXGroup;
+			children = (
+				C05C264421EEE205003BCCE6 /* stars.scnp */,
+				C05C264521EEE205003BCCE6 /* star.png */,
+			);
+			path = Stars;
+			sourceTree = "<group>";
+		};
+		C05C264821EEE328003BCCE6 /* Confetti */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Confetti;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,8 +293,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B19BD28621DFC8BE006E12CB /* art.scnassets in Resources */,
+				C05C264621EEE205003BCCE6 /* stars.scnp in Resources */,
 				B19BD29021DFC8BE006E12CB /* LaunchScreen.storyboard in Resources */,
 				B19BD28D21DFC8BE006E12CB /* Assets.xcassets in Resources */,
+				C05C264721EEE205003BCCE6 /* star.png in Resources */,
 				B19BD2B821DFDF9A006E12CB /* Default-568h@2x.png in Resources */,
 				B19BD28B21DFC8BE006E12CB /* Main.storyboard in Resources */,
 			);
