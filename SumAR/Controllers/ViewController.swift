@@ -11,7 +11,7 @@ import SceneKit
 import ARKit
 import GameplayKit
 
-class ViewController: UIViewController, ARSCNViewDelegate {
+class ViewController: UIViewController {
 
     // MARK: - Outlets
     @IBOutlet var sceneView: ARSCNView!
@@ -58,7 +58,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.delegate = self
         sceneView.scene.physicsWorld.contactDelegate = self
         
-        self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
+        self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
         
@@ -67,6 +67,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             airplaneNode = airplane
         }
 
+        sceneView.scene = mainScene
         sceneView.autoenablesDefaultLighting = true
         numberGenerator()
         obtainAddends()
@@ -88,66 +89,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Pause the view's session
         sceneView.session.pause()
-    }
-
-    // MARK: - ARSCNViewDelegate
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        if let touch = touches.first {
-            
-            let touchLocation = touch.location(in: sceneView)
-            
-            let results = sceneView.hitTest(touchLocation, types: .existingPlaneUsingExtent)
-            
-            if let hitResult = results.first {
-                
-                if let airplaneNode = mainScene.rootNode.childNode(withName: "ship", recursively: true){
-                    airplaneNode.position = SCNVector3(
-                        x: hitResult.worldTransform.columns.3.x,
-                        y: hitResult.worldTransform.columns.3.y + 0.01,
-                        z: hitResult.worldTransform.columns.3.z)
-                    sceneView.scene.rootNode.addChildNode(airplaneNode)
-                }
-            }
-        }
-    }
-    
-    
-    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        if (anchor is ARPlaneAnchor) && !planeDidRender {
-            
-            let planeAnchor = anchor as! ARPlaneAnchor
-            let plane = SCNPlane(width: 0.5, height: 0.5)
-            
-            let planeNode = SCNNode()
-
-            planeNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
-            planeNode.transform = SCNMatrix4MakeRotation(-Float.pi/2, 1, 0, 0)
-            airplaneNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
-
-            let gridMaterial = SCNMaterial()
-            
-            gridMaterial.diffuse.contents = UIImage(named: "art.scnassets/grid.png")
-            
-            plane.materials = [gridMaterial]
-            planeNode.geometry = plane
-            
-            let body = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(node: airplaneNode))
-            airplaneNode.physicsBody = body
-            airplaneNode.physicsBody?.categoryBitMask = CollisionCategory.airplaneCategory.rawValue
-            airplaneNode.physicsBody?.collisionBitMask = CollisionCategory.ringCategory.rawValue
-            airplaneNode.physicsBody?.contactTestBitMask = CollisionCategory.ringCategory.rawValue
-
-            node.addChildNode(planeNode)
-            node.addChildNode(airplaneNode)
-            
-            addRingsNodes()
-
-            planeDidRender = true
-            
-        } else{
-            return
-        }
     }
     
     // MARK: - Actions
@@ -196,11 +137,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     @IBAction func startEngine(_ sender: UIButton) {
+        
         Timer.scheduledTimer(withTimeInterval: 1/24, repeats: true) { (timer) in
             self.airplaneNode.localTranslate(by: SCNVector3(0,0,0.01 * self.zPosition))
             self.airplaneNode.eulerAngles.y += Float.pi/180 * self.xPosition
             self.airplaneNode.eulerAngles.x += Float.pi/180 * self.yPosition
         }
+        
     }
     
     // MARK: - Display Sum
@@ -211,7 +154,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         currentLevel.numOne = sum.minNum
         currentLevel.numTwo = sum.maxNum
         sumLabel.text = "\(sum.minNum) + \(sum.maxNum)"
-        
         addNumbersNodes(goal: sum.goal)
         
     }
@@ -223,6 +165,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func addRingsNodes(){
+       
         var angle:Float = 0.0
         let radius:Float = 4.0
         let angleIncrement:Float = Float.pi * 2.0 / 4.0
@@ -252,11 +195,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             ringNodes.append(node)
             sceneView.scene.rootNode.addChildNode(node)
-            
         }
+        
     }
     
     func addNumbersNodes(goal: Int){
+     
         var angle:Float = 0.0
         let radius:Float = 4.0
         let angleIncrement:Float = Float.pi * 2.0 / 4.0
@@ -294,9 +238,73 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             sceneView.scene.rootNode.addChildNode(nodeText)
         }
     }
+    
+    func nextOperation(){
+        DispatchQueue.main.async {
+            for i in 0..<self.numberNodes.count {
+                self.numberNodes[i].removeFromParentNode()
+            }
+            self.numberNodes.removeAll()
+            self.scoreLabel.text = String(self.score)
+            self.sumLabel.text = "Congratulations!"
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: {
+            self.obtainAddends()
+            self.nextSum = false
+        })
+    }
+}
+
+//MARK: - ARSCNViewDelegate Methods
+
+extension ViewController: ARSCNViewDelegate{
+    
+    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+        
+        guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
+        guard !planeDidRender else { return }
+        
+        airplaneNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
+
+        let body = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(node: airplaneNode))
+        airplaneNode.physicsBody = body
+        airplaneNode.physicsBody?.categoryBitMask = CollisionCategory.airplaneCategory.rawValue
+        airplaneNode.physicsBody?.collisionBitMask = CollisionCategory.ringCategory.rawValue
+        airplaneNode.physicsBody?.contactTestBitMask = CollisionCategory.ringCategory.rawValue
+        
+        let planeNode = createPlaneWith(withPlaneAnchor: planeAnchor)
+        
+        node.addChildNode(planeNode)
+        node.addChildNode(airplaneNode)
+        
+        addRingsNodes()
+        planeDidRender = true
+
+    }
+    
+    //MARK: -Plane Rendering Methods
+    
+    func createPlaneWith(withPlaneAnchor planeAnchor: ARPlaneAnchor) -> SCNNode{
+       
+        let plane = SCNPlane(width: 0.5, height: 0.5)
+        let planeNode = SCNNode()
+    
+        planeNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
+        planeNode.transform = SCNMatrix4MakeRotation(-Float.pi/2, 1, 0, 0)
+        
+        let gridMaterial = SCNMaterial()
+        gridMaterial.diffuse.contents = UIImage(named: "art.scnassets/grid.png")
+        
+        plane.materials = [gridMaterial]
+        planeNode.geometry = plane
+        
+        return planeNode
+    }
 }
 
 
+//MARK: - SCNPhysicsContactDelegate Methods
 extension ViewController: SCNPhysicsContactDelegate{
     
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
@@ -329,22 +337,5 @@ extension ViewController: SCNPhysicsContactDelegate{
             }
         }
     }
-    
-    func nextOperation(){
-        DispatchQueue.main.async {
-            for i in 0..<self.numberNodes.count {
-                self.numberNodes[i].removeFromParentNode()
-            }
-            self.numberNodes.removeAll()
-            self.scoreLabel.text = String(self.score)
-            self.sumLabel.text = "Congratulations!"
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: {
-            self.obtainAddends()
-            self.nextSum = false
-        })
-    }
 
-    
 }
