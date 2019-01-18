@@ -58,18 +58,26 @@ class ViewController: UIViewController {
         sceneView.delegate = self
         sceneView.scene.physicsWorld.contactDelegate = self
         
-        self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
+        self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
+        sceneView.autoenablesDefaultLighting = true
         
+        initScene()
+
+    }
+    
+    func initScene() {
         mainScene = SCNScene(named: "art.scnassets/ship.scn")!
+        sceneView.scene = mainScene
+        
         if let airplane = mainScene.rootNode.childNode(withName: "ship", recursively: true){
             airplaneNode = airplane
+            airplaneNode.isHidden = true
         }
-
-        sceneView.scene = mainScene
-        sceneView.autoenablesDefaultLighting = true
+        
         numberGenerator()
+        
         obtainAddends()
     }
     
@@ -97,6 +105,8 @@ class ViewController: UIViewController {
         xPosition = -sender.value * 2.5
     
     }
+    
+    
     
     @IBAction func resetHorizontalDirection(_ sender: UISlider) {
         
@@ -274,7 +284,7 @@ extension ViewController: ARSCNViewDelegate{
         airplaneNode.physicsBody?.contactTestBitMask = CollisionCategory.ringCategory.rawValue
         
         let planeNode = createPlaneWith(withPlaneAnchor: planeAnchor)
-        
+        airplaneNode.isHidden = false
         node.addChildNode(planeNode)
         node.addChildNode(airplaneNode)
         
