@@ -56,7 +56,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Set the view's delegate
         sceneView.delegate = self
-        sceneView.scene.physicsWorld.contactDelegate = self
         
         self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         // Show statistics such as fps and timing information
@@ -70,7 +69,8 @@ class ViewController: UIViewController {
     func initScene() {
         mainScene = SCNScene(named: "art.scnassets/ship.scn")!
         sceneView.scene = mainScene
-        
+        sceneView.scene.physicsWorld.contactDelegate = self
+
         if let airplane = mainScene.rootNode.childNode(withName: "ship", recursively: true){
             airplaneNode = airplane
             airplaneNode.isHidden = true
