@@ -177,15 +177,21 @@ class ViewController: UIViewController {
     func addRingsNodes(){
        
         var angle:Float = 0.0
-        let radius:Float = 4.0
+        let radius:Float = 2.0
         let angleIncrement:Float = Float.pi * 2.0 / 4.0
         
         for index in 0..<4 {
             let node = SCNNode()
+            let blueParticleSystem = SCNParticleSystem(named: "stars", inDirectory: nil)
             
-            let torus = SCNTorus(ringRadius: 0.4, pipeRadius: 0.05)
-            let color = UIColor(hue: 25.0 / 359.0, saturation: 0.8, brightness: 0.7, alpha: 1.0)
-            torus.firstMaterial?.diffuse.contents = color
+            let torus = SCNTorus(ringRadius: 0.2, pipeRadius: 0.025)
+            //let color = UIColor(hue: 25.0 / 359.0, saturation: 0.8, brightness: 0.7, alpha: 1.0)
+            //torus.firstMaterial?.diffuse.contents = color
+            
+            let gridMaterial = SCNMaterial()
+            gridMaterial.diffuse.contents = UIImage(named: "art.scnassets/spaceshipTexture.jpg")
+            
+            torus.materials = [gridMaterial]
             
             let x = radius * cos(angle)
             let z = radius * sin(angle)
@@ -203,6 +209,7 @@ class ViewController: UIViewController {
             node.physicsBody?.contactTestBitMask = CollisionCategory.airplaneCategory.rawValue
             node.physicsBody?.collisionBitMask = CollisionCategory.airplaneCategory.rawValue
             
+            node.addParticleSystem(blueParticleSystem!)
             ringNodes.append(node)
             sceneView.scene.rootNode.addChildNode(node)
         }
@@ -238,7 +245,7 @@ class ViewController: UIViewController {
             let x = radius * cos(angle)
             let z = radius * sin(angle)
             
-            nodeText.position = SCNVector3(x: x, y: 0, z: z)
+            nodeText.position = SCNVector3(x: x, y: 0.2, z: z)
             nodeText.eulerAngles.y = grades[index]
             angle += angleIncrement
             
