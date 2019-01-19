@@ -240,7 +240,11 @@ class ViewController: UIViewController {
             
             text.font = UIFont.systemFont(ofSize: 0.5)
             text.flatness = 0.01
-            text.firstMaterial?.diffuse.contents = UIColor.white
+            //text.firstMaterial?.diffuse.contents = UIColor.white
+            let gridMaterial = SCNMaterial()
+            gridMaterial.diffuse.contents = UIImage(named: "art.scnassets/spaceshipTexture.jpg")
+            
+            text.materials = [gridMaterial]
             
             let x = radius * cos(angle)
             let z = radius * sin(angle)
