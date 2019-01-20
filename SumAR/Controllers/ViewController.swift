@@ -38,7 +38,8 @@ class ViewController: UIViewController {
     var airplaneNode = SCNNode()
     var ringNodes = [SCNNode]()
     var numberNodes = [SCNNode]()
-    
+    var removeAirplane = false
+    var timer = Timer()
     var currentLevel = (goal: 0,numOne: 0, numTwo: 0)
 
     var xPosition: Float = 0
@@ -101,31 +102,25 @@ class ViewController: UIViewController {
     
     // MARK: - Actions
     @IBAction func moveRightLeft(_ sender: UISlider) {
-        
         xPosition = -sender.value * 2.5
-    
     }
     
     
-    
     @IBAction func resetHorizontalDirection(_ sender: UISlider) {
-        
         sender.value = 0
         xPosition = 0
     }
     
     
     @IBAction func moveUpDown(_ sender: UISlider) {
-        
         yPosition = -sender.value * 2
         timerVerticalMovements.invalidate()
     }
     
     
     @IBAction func resetMoveUpDown(_ sender: UISlider) {
-        
+       guard removeAirplane else { return }
        sender.value = 0
-        
        timerVerticalMovements = Timer.scheduledTimer(withTimeInterval: 1/24, repeats: true) { (timer) in
             if self.airplaneNode.eulerAngles.x > 0 {
                 self.airplaneNode.eulerAngles.x -= Float.pi/180 * 1 * self.zPosition
@@ -137,7 +132,6 @@ class ViewController: UIViewController {
                timer.invalidate()
             }
         }
-        
         yPosition = sender.value
       
     }
@@ -148,7 +142,8 @@ class ViewController: UIViewController {
     
     @IBAction func startEngine(_ sender: UIButton) {
         
-        Timer.scheduledTimer(withTimeInterval: 1/24, repeats: true) { (timer) in
+        timer = Timer.scheduledTimer(withTimeInterval: 1/24, repeats: true) { (timer) in
+            guard !self.removeAirplane else { return }
             self.airplaneNode.localTranslate(by: SCNVector3(0,0,0.01 * self.zPosition))
             self.airplaneNode.eulerAngles.y += Float.pi/180 * self.xPosition
             self.airplaneNode.eulerAngles.x += Float.pi/180 * self.yPosition
@@ -275,6 +270,25 @@ class ViewController: UIViewController {
             self.nextSum = false
         })
     }
+    
+    //MARK: -Plane Rendering Methods
+    
+    func createPlaneWith(withPlaneAnchor planeAnchor: ARPlaneAnchor) -> SCNNode{
+        
+        let plane = SCNPlane(width: 0.5, height: 0.5)
+        let planeNode = SCNNode()
+        
+        planeNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
+        planeNode.transform = SCNMatrix4MakeRotation(-Float.pi/2, 1, 0, 0)
+        
+        let gridMaterial = SCNMaterial()
+        gridMaterial.diffuse.contents = UIImage(named: "art.scnassets/grid.png")
+        
+        plane.materials = [gridMaterial]
+        planeNode.geometry = plane
+        
+        return planeNode
+    }
 }
 
 //MARK: - ARSCNViewDelegate Methods
@@ -304,24 +318,6 @@ extension ViewController: ARSCNViewDelegate{
 
     }
     
-    //MARK: -Plane Rendering Methods
-    
-    func createPlaneWith(withPlaneAnchor planeAnchor: ARPlaneAnchor) -> SCNNode{
-       
-        let plane = SCNPlane(width: 0.5, height: 0.5)
-        let planeNode = SCNNode()
-    
-        planeNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
-        planeNode.transform = SCNMatrix4MakeRotation(-Float.pi/2, 1, 0, 0)
-        
-        let gridMaterial = SCNMaterial()
-        gridMaterial.diffuse.contents = UIImage(named: "art.scnassets/grid.png")
-        
-        plane.materials = [gridMaterial]
-        planeNode.geometry = plane
-        
-        return planeNode
-    }
 }
 
 
@@ -330,33 +326,42 @@ extension ViewController: SCNPhysicsContactDelegate{
     
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
         
-        print("** Collision!! " + contact.nodeA.name! + " hit " + contact.nodeB.name!)
         if !nextSum {
+            
+            print("** Collision!! " + contact.nodeA.name! + " hit " + contact.nodeB.name!)
+
             if contact.nodeA.physicsBody?.categoryBitMask == CollisionCategory.ringCategory.rawValue
                 || contact.nodeB.physicsBody?.categoryBitMask == CollisionCategory.ringCategory.rawValue {
+                nextSum = true
+                let ringName = contact.nodeA.name == "ship" ? contact.nodeB.name : contact.nodeA.name
                 
-                if contact.nodeA.name! != "ship" {
-                    if numberNodes[Int(contact.nodeA.name!)!].name == String(currentLevel.goal) {
+                if numberNodes[Int(ringName!)!].name == String(currentLevel.goal) {
                         nextSum = true
                         print("* Suma correcta *")
                         score += 10
                         nextOperation()
                     } else {
-                        print("··· Incorrecto ···")
-                    }
-                } else if contact.nodeB.name! != "ship" {
-                    if numberNodes[Int(contact.nodeB.name!)!].name == String(currentLevel.goal) {
-                        nextSum = true
-                        print("* Suma correcta *")
-                        score += 10
-                        nextOperation()
-                    } else {
-                        print("··· Incorrecto ···")
-                    }
+                        timer.invalidate()
+                        removeAirplane = true
+                    
+                       // self.sumLabel.text = "Wrong!"
+                    
                 }
+            
      
             }
         }
     }
+ }
 
+extension ViewController: SCNSceneRendererDelegate {
+    
+    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+       
+        if removeAirplane {
+            airplaneNode.isHidden = true
+            removeAirplane = false
+        }
+    }
 }
+
