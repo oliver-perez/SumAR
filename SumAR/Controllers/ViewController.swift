@@ -47,6 +47,7 @@ class ViewController: UIViewController {
     var zPosition: Float = 0.5
     
     var timerVerticalMovements = Timer()
+    var startEngine = false
     
     var score: Int = 0
     var nextSum: Bool = false
@@ -81,6 +82,12 @@ class ViewController: UIViewController {
 extension ViewController: SCNSceneRendererDelegate {
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+       
+        guard startEngine else { return }
+        self.airplaneNode.localTranslate(by: SCNVector3(0,0,0.01 * self.zPosition))
+        self.airplaneNode.eulerAngles.y += Float.pi/180 * self.xRotation
+        self.airplaneNode.eulerAngles.x += Float.pi/180 * self.yRotation
+        
         if removeAirplane {
             sceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
                 if node.name == "ship" {

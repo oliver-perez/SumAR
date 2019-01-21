@@ -51,13 +51,7 @@ extension ViewController: AirplaneControllerDelegate{
     }
     
     @IBAction func startEngine(_ sender: UIButton) {
-        
-        timer = Timer.scheduledTimer(withTimeInterval: 1/24, repeats: true) { (timer) in
-            guard !self.removeAirplane else { return }
-            self.airplaneNode.localTranslate(by: SCNVector3(0,0,0.01 * self.zPosition))
-            self.airplaneNode.eulerAngles.y += Float.pi/180 * self.xRotation
-            self.airplaneNode.eulerAngles.x += Float.pi/180 * self.yRotation
-        }
+        startEngine = true
     }
     
     //MARK: -Plane Rendering Methods
