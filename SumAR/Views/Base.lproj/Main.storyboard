@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
-    <device id="ipad9_7" orientation="landscape">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,14 +15,14 @@
             <objects>
                 <viewController id="BV1-FR-VrT" customClass="ViewController" customModule="SumAR" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="U0K-SW-4ec">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BrB-h1-WRS">
-                                <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </arscnView>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="91o-h7-gPb">
-                                <rect key="frame" x="14" y="685" width="118" height="30"/>
+                                <rect key="frame" x="14" y="485" width="118" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="29" id="Rjl-FH-lb9"/>
                                     <constraint firstAttribute="width" constant="114" id="VIz-SG-m4I"/>
@@ -33,14 +33,14 @@
                                 </connections>
                             </slider>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="NiF-yd-1dR">
-                                <rect key="frame" x="888" y="685" width="118" height="31"/>
+                                <rect key="frame" x="184" y="485" width="118" height="31"/>
                                 <connections>
                                     <action selector="moveUpDown:" destination="BV1-FR-VrT" eventType="valueChanged" id="eua-h6-2TW"/>
                                     <action selector="resetMoveUpDown:" destination="BV1-FR-VrT" eventType="touchUpInside" id="2KU-Yj-28e"/>
                                 </connections>
                             </slider>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KRI-6L-NTQ">
-                                <rect key="frame" x="470.5" y="665" width="83" height="53"/>
+                                <rect key="frame" x="118.5" y="465" width="83" height="53"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="37"/>
                                 <state key="normal" title="Start">
                                     <color key="titleColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -50,7 +50,7 @@
                                 </connections>
                             </button>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Won-3d-ex6">
-                                <rect key="frame" x="247" y="684" width="118" height="30"/>
+                                <rect key="frame" x="247" y="484" width="118" height="30"/>
                                 <connections>
                                     <action selector="speedControl:" destination="BV1-FR-VrT" eventType="valueChanged" id="0wc-ce-vI8"/>
                                 </connections>

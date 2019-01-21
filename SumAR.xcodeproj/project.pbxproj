@@ -16,6 +16,11 @@
 		B19BD29B21DFC8BE006E12CB /* SumARTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19BD29A21DFC8BE006E12CB /* SumARTests.swift */; };
 		B19BD2A621DFC8BE006E12CB /* SumARUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19BD2A521DFC8BE006E12CB /* SumARUITests.swift */; };
 		B19BD2B821DFDF9A006E12CB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B19BD2B721DFDF9A006E12CB /* Default-568h@2x.png */; };
+		B1C6303221F553E8001BAA2B /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C6303121F553E8001BAA2B /* Protocols.swift */; };
+		B1C6303421F58D37001BAA2B /* AirplaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C6303321F58D37001BAA2B /* AirplaneController.swift */; };
+		B1C6303621F59045001BAA2B /* RingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C6303521F59045001BAA2B /* RingsController.swift */; };
+		B1C6303821F591B9001BAA2B /* ARSCNDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C6303721F591B9001BAA2B /* ARSCNDelegate.swift */; };
+		B1C6303A21F5927F001BAA2B /* SCNPhysicsContactDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C6303921F5927F001BAA2B /* SCNPhysicsContactDelegate.swift */; };
 		C026825521E59E1D0078FFDA /* LevelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C026825421E59E1D0078FFDA /* LevelManager.swift */; };
 		C05C264621EEE205003BCCE6 /* stars.scnp in Resources */ = {isa = PBXBuildFile; fileRef = C05C264421EEE205003BCCE6 /* stars.scnp */; };
 		C05C264721EEE205003BCCE6 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = C05C264521EEE205003BCCE6 /* star.png */; };
@@ -54,6 +59,11 @@
 		B19BD2A521DFC8BE006E12CB /* SumARUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SumARUITests.swift; sourceTree = "<group>"; };
 		B19BD2A721DFC8BE006E12CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B19BD2B721DFDF9A006E12CB /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		B1C6303121F553E8001BAA2B /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		B1C6303321F58D37001BAA2B /* AirplaneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirplaneController.swift; sourceTree = "<group>"; };
+		B1C6303521F59045001BAA2B /* RingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingsController.swift; sourceTree = "<group>"; };
+		B1C6303721F591B9001BAA2B /* ARSCNDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARSCNDelegate.swift; sourceTree = "<group>"; };
+		B1C6303921F5927F001BAA2B /* SCNPhysicsContactDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNPhysicsContactDelegate.swift; sourceTree = "<group>"; };
 		C026825421E59E1D0078FFDA /* LevelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelManager.swift; sourceTree = "<group>"; };
 		C05C264421EEE205003BCCE6 /* stars.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = stars.scnp; sourceTree = "<group>"; };
 		C05C264521EEE205003BCCE6 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
@@ -143,6 +153,11 @@
 			children = (
 				B19BD28721DFC8BE006E12CB /* ViewController.swift */,
 				C026825421E59E1D0078FFDA /* LevelManager.swift */,
+				B1C6303121F553E8001BAA2B /* Protocols.swift */,
+				B1C6303321F58D37001BAA2B /* AirplaneController.swift */,
+				B1C6303521F59045001BAA2B /* RingsController.swift */,
+				B1C6303721F591B9001BAA2B /* ARSCNDelegate.swift */,
+				B1C6303921F5927F001BAA2B /* SCNPhysicsContactDelegate.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -323,7 +338,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1C6303A21F5927F001BAA2B /* SCNPhysicsContactDelegate.swift in Sources */,
+				B1C6303421F58D37001BAA2B /* AirplaneController.swift in Sources */,
+				B1C6303621F59045001BAA2B /* RingsController.swift in Sources */,
+				B1C6303221F553E8001BAA2B /* Protocols.swift in Sources */,
 				B19BD28821DFC8BE006E12CB /* ViewController.swift in Sources */,
+				B1C6303821F591B9001BAA2B /* ARSCNDelegate.swift in Sources */,
 				C026825521E59E1D0078FFDA /* LevelManager.swift in Sources */,
 				B19BD28421DFC8BE006E12CB /* AppDelegate.swift in Sources */,
 			);
