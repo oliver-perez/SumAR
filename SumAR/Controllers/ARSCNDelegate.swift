@@ -21,8 +21,8 @@ extension ViewController: ARSCNViewDelegate{
         sceneView.showsStatistics = true
         sceneView.autoenablesDefaultLighting = true
         
-        mainScene = SCNScene(named: "art.scnassets/scene.scn")!
-       // sceneView.scene = mainScene
+        //mainScene = SCNScene(named: "art.scnassets/scene.scn")!
+        //sceneView.scene = mainScene
         sceneView.scene.physicsWorld.contactDelegate = self
         /*
         if let airplane = mainScene.rootNode.childNode(withName: "ship", recursively: true){
@@ -51,8 +51,9 @@ extension ViewController: ARSCNViewDelegate{
         airplaneNode.physicsBody?.collisionBitMask = CollisionCategory.ringCategory.rawValue
         airplaneNode.physicsBody?.contactTestBitMask = CollisionCategory.ringCategory.rawValue
         
-        let planeNode = createPlaneWith(withPlaneAnchor: planeAnchor)
-        planeNode.name = "plane"
+        let plane = createPlaneWith(withPlaneAnchor: planeAnchor)
+        plane.name = "plane"
+        planeNode = plane
         //airplaneNode.isHidden = false
         node.addChildNode(planeNode)
         node.addChildNode(airplaneNode)

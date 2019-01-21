@@ -47,7 +47,7 @@ extension ViewController: AirplaneControllerDelegate{
     }
     
     @IBAction func speedControl(_ sender: UISlider) {
-        zPosition = sender.value
+        zPosition = sender.value * 0.25
     }
     
     @IBAction func startEngine(_ sender: UIButton) {

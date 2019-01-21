@@ -31,20 +31,36 @@ extension ViewController: SCNPhysicsContactDelegate{
                 let ringName = contact.nodeA.name == "ship" ? contact.nodeB.name : contact.nodeA.name
                 
                 if numberNodes[Int(ringName!)!].name == String(currentLevel.goal) {
-                    nextSum = true
                     print("* Suma correcta *")
                     score += 10
                     nextOperation()
                 } else {
                     timer.invalidate()
                     removeAirplane = true
+                    startEngine = false
                     score = 0
                     DispatchQueue.main.async {
                         self.showExplosion(self.airplaneNode.position)
                         self.airplaneNode.removeFromParentNode()
+                        self.planeNode.removeFromParentNode()
                         self.scoreLabel.text = String(self.score)
                         self.sumLabel.text = "Wrong!"
+                        
                     }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: {
+                        for i in 0..<self.numberNodes.count {
+                            self.numberNodes[i].removeFromParentNode()
+                            self.ringNodes[i].removeFromParentNode()
+                        }
+                        self.numberNodes.removeAll()
+                        self.ringNodes.removeAll()
+                        self.obtainAddends()
+                        self.planeDidRender = false
+                        self.removeAirplane = false
+                        self.nextSum = false
+                    })
+                    
                 }
             }
         }
