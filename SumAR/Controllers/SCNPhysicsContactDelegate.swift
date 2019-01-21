@@ -38,11 +38,19 @@ extension ViewController: SCNPhysicsContactDelegate{
                 } else {
                     timer.invalidate()
                     removeAirplane = true
-                    
-                    // self.sumLabel.text = "Wrong!"
-                    
+                    score = 0
+                    DispatchQueue.main.async {
+                        self.showExplosion(self.airplaneNode.position)
+                        self.airplaneNode.removeFromParentNode()
+                        self.scoreLabel.text = String(self.score)
+                        self.sumLabel.text = "Wrong!"
+                    }
                 }
             }
         }
+    }
+    
+    func showExplosion(_ position: SCNVector3) {
+        print("<<<<<Explosion>>>>>")
     }
 }

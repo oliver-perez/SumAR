@@ -24,12 +24,12 @@ extension ViewController: ARSCNViewDelegate{
         mainScene = SCNScene(named: "art.scnassets/scene.scn")!
        // sceneView.scene = mainScene
         sceneView.scene.physicsWorld.contactDelegate = self
-        
+        /*
         if let airplane = mainScene.rootNode.childNode(withName: "ship", recursively: true){
             airplaneNode = airplane
             airplaneNode.isHidden = true
         }
-        
+        */
         numberGenerator()
         obtainAddends()
     }
@@ -39,7 +39,11 @@ extension ViewController: ARSCNViewDelegate{
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
         guard !planeDidRender else { return }
         
-        airplaneNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
+        let rocketScene = SCNScene(named: "art.scnassets/ship.scn")!
+        if let rocket = rocketScene.rootNode.childNode(withName: "ship", recursively: true){
+            airplaneNode = rocket
+            airplaneNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
+        }
         
         let body = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(node: airplaneNode))
         airplaneNode.physicsBody = body
@@ -49,7 +53,7 @@ extension ViewController: ARSCNViewDelegate{
         
         let planeNode = createPlaneWith(withPlaneAnchor: planeAnchor)
         planeNode.name = "plane"
-        airplaneNode.isHidden = false
+        //airplaneNode.isHidden = false
         node.addChildNode(planeNode)
         node.addChildNode(airplaneNode)
         
