@@ -38,6 +38,7 @@ class ViewController: UIViewController {
     var airplaneNode = SCNNode()
     var ringNodes = [SCNNode]()
     var numberNodes = [SCNNode]()
+    var explosion = SCNNode()
     var removeAirplane = false
     var timer = Timer()
     var currentLevel = (goal: 0,numOne: 0, numTwo: 0)
@@ -79,7 +80,7 @@ class ViewController: UIViewController {
 
 
 extension ViewController: SCNSceneRendererDelegate {
-    
+    /*
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         if removeAirplane {
             sceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
@@ -89,5 +90,6 @@ extension ViewController: SCNSceneRendererDelegate {
             }
         }
     }
+ */
 }
 
