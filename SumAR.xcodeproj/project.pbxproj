@@ -21,6 +21,7 @@
 		B1C6303621F59045001BAA2B /* RingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C6303521F59045001BAA2B /* RingsController.swift */; };
 		B1C6303821F591B9001BAA2B /* ARSCNDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C6303721F591B9001BAA2B /* ARSCNDelegate.swift */; };
 		B1C6303A21F5927F001BAA2B /* SCNPhysicsContactDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C6303921F5927F001BAA2B /* SCNPhysicsContactDelegate.swift */; };
+		B1C6303E21F69274001BAA2B /* RendererController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C6303D21F69274001BAA2B /* RendererController.swift */; };
 		C026825521E59E1D0078FFDA /* LevelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C026825421E59E1D0078FFDA /* LevelManager.swift */; };
 		C05C264621EEE205003BCCE6 /* stars.scnp in Resources */ = {isa = PBXBuildFile; fileRef = C05C264421EEE205003BCCE6 /* stars.scnp */; };
 		C05C264721EEE205003BCCE6 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = C05C264521EEE205003BCCE6 /* star.png */; };
@@ -64,6 +65,7 @@
 		B1C6303521F59045001BAA2B /* RingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingsController.swift; sourceTree = "<group>"; };
 		B1C6303721F591B9001BAA2B /* ARSCNDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARSCNDelegate.swift; sourceTree = "<group>"; };
 		B1C6303921F5927F001BAA2B /* SCNPhysicsContactDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNPhysicsContactDelegate.swift; sourceTree = "<group>"; };
+		B1C6303D21F69274001BAA2B /* RendererController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererController.swift; sourceTree = "<group>"; };
 		C026825421E59E1D0078FFDA /* LevelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelManager.swift; sourceTree = "<group>"; };
 		C05C264421EEE205003BCCE6 /* stars.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = stars.scnp; sourceTree = "<group>"; };
 		C05C264521EEE205003BCCE6 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				B1C6303521F59045001BAA2B /* RingsController.swift */,
 				B1C6303721F591B9001BAA2B /* ARSCNDelegate.swift */,
 				B1C6303921F5927F001BAA2B /* SCNPhysicsContactDelegate.swift */,
+				B1C6303D21F69274001BAA2B /* RendererController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				B1C6303A21F5927F001BAA2B /* SCNPhysicsContactDelegate.swift in Sources */,
 				B1C6303421F58D37001BAA2B /* AirplaneController.swift in Sources */,
 				B1C6303621F59045001BAA2B /* RingsController.swift in Sources */,
+				B1C6303E21F69274001BAA2B /* RendererController.swift in Sources */,
 				B1C6303221F553E8001BAA2B /* Protocols.swift in Sources */,
 				B19BD28821DFC8BE006E12CB /* ViewController.swift in Sources */,
 				B1C6303821F591B9001BAA2B /* ARSCNDelegate.swift in Sources */,

@@ -77,20 +77,6 @@ class ViewController: UIViewController {
         // Pause the view's session
         sceneView.session.pause()
     }
-    
 }
 
-
-extension ViewController: SCNSceneRendererDelegate {
-    
-    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-       
-        guard startEngine else { return }
-        self.airplaneNode.localTranslate(by: SCNVector3(0,0,0.01 * self.zPosition))
-        self.airplaneNode.eulerAngles.y += Float.pi/180 * self.xRotation
-        self.airplaneNode.eulerAngles.x += Float.pi/180 * self.yRotation
-        
-    }
- 
-}
 

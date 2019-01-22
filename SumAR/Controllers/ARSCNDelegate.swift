@@ -17,50 +17,21 @@ extension ViewController: ARSCNViewDelegate{
     func initScene() {
         
         sceneView.delegate = self
+        let rocketScene = SCNScene(named: "art.scnassets/scene.scn")!
+        sceneView.scene = rocketScene
         self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         sceneView.showsStatistics = true
         sceneView.autoenablesDefaultLighting = true
-        
-        //mainScene = SCNScene(named: "art.scnassets/scene.scn")!
-        //sceneView.scene = mainScene
         sceneView.scene.physicsWorld.contactDelegate = self
-        /*
-        if let airplane = mainScene.rootNode.childNode(withName: "ship", recursively: true){
-            airplaneNode = airplane
-            airplaneNode.isHidden = true
-        }
-        */
-        numberGenerator()
-        obtainAddends()
-    }
-    
-    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+       
+       
         
-        guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
-        guard !planeDidRender else { return }
-        
-        let rocketScene = SCNScene(named: "art.scnassets/ship.scn")!
         if let rocket = rocketScene.rootNode.childNode(withName: "ship", recursively: true){
             airplaneNode = rocket
-            airplaneNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
         }
         
-        let body = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(node: airplaneNode))
-        airplaneNode.physicsBody = body
-        airplaneNode.physicsBody?.categoryBitMask = CollisionCategory.airplaneCategory.rawValue
-        airplaneNode.physicsBody?.collisionBitMask = CollisionCategory.ringCategory.rawValue
-        airplaneNode.physicsBody?.contactTestBitMask = CollisionCategory.ringCategory.rawValue
-        
-        let plane = createPlaneWith(withPlaneAnchor: planeAnchor)
-        plane.name = "plane"
-        planeNode = plane
-        //airplaneNode.isHidden = false
-        node.addChildNode(planeNode)
-        node.addChildNode(airplaneNode)
-        
-        addRingsNodes()
-        planeDidRender = true
-        
+        numberGenerator()
+        obtainAddends()
     }
     
 }
