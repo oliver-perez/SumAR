@@ -102,19 +102,20 @@ class ViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        let width: CGFloat = view.frame.width / 8
-        let height: CGFloat = view.frame.height / 4
         
-        upDownSlider.frame = CGRect(x: 0, y: 0, width: height, height: width)
+        let height: CGFloat = view.frame.width / 7
+        let width: CGFloat = 60
+        
+        upDownSlider.frame = CGRect(x: 0, y: 0, width: width, height: height)
         upDownSlider.center = CGPoint(x: view.frame.width - 60, y: view.frame.height - height/2 - 20)
         upDownSlider.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
         
-        engineSlider.frame = CGRect(x: 0, y: 0, width: height, height: width)
+        engineSlider.frame = CGRect(x: 0, y: 0, width: width, height: height)
         engineSlider.center = CGPoint(x: view.frame.width - 120, y: view.frame.height - height/2 - 20)
         engineSlider.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
         
-        rudderSlider.frame = CGRect(x: 0, y: 0, width: height, height: width)
-        rudderSlider.center = CGPoint(x: 60, y: view.frame.height - height/2 - 10)
+        rudderSlider.frame = CGRect(x: 0, y: 0, width: 150, height: width)
+        rudderSlider.center = CGPoint(x: 100, y: view.frame.height - height/2 - 15)
     }
     
 }

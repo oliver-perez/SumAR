@@ -42,16 +42,15 @@ extension ViewController: AirplaneControllerDelegate{
     }
     
     @objc func engineSliderValueChanged(_ rangeSlider: RangeSlider) {
-        zPosition = Float(rangeSlider.upperValue/4)
+        zPosition = Float(rangeSlider.upperValue/3)
     }
     
     @objc func rudderSliderValueChanged(_ rangeSlider: RangeSlider) {
-        xRotation = Float(-(rangeSlider.upperValue * 2 - 1))
+        xRotation = Float(-(rangeSlider.upperValue * 2 - 1)) * 1.5
     }
     
     @objc func upDownSliderValueChanged(_ rangeSlider: RangeSlider) {
-        yRotation = Float(-(rangeSlider.upperValue * 2 - 1))
-        
+        yRotation = Float(-(rangeSlider.upperValue * 2 - 1)) * 1.5
     }
     
     //MARK: -Plane Rendering Methods
