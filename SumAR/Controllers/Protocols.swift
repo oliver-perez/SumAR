@@ -10,11 +10,9 @@ import UIKit
 
 protocol AirplaneControllerDelegate: class {
     
-    func moveRightLeft(_ sender: UISlider)
-    func resetHorizontalDirection(_ sender: UISlider)
-    func moveUpDown(_ sender: UISlider)
-    func resetMoveUpDown(_ sender: UISlider)
-    func speedControl(_ sender: UISlider)
+    func rudderSliderValueChanged(_ rangeSlider: RangeSlider)
+    func upDownSliderValueChanged(_ rangeSlider: RangeSlider)
+    func engineSliderValueChanged(_ rangeSlider: RangeSlider)
     func startEngine(_ sender: UIButton)
 }
 

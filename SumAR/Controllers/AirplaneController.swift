@@ -14,19 +14,10 @@ import GameplayKit
 
 extension ViewController: AirplaneControllerDelegate{
     
-    // MARK: - Actions
-    @IBAction func moveRightLeft(_ sender: UISlider) {
-        xRotation = -sender.value * 2.5
-    }
     
     @IBAction func resetHorizontalDirection(_ sender: UISlider) {
         sender.value = 0
         xRotation = 0
-    }
-    
-    @IBAction func moveUpDown(_ sender: UISlider) {
-        yRotation = -sender.value * 2
-        timerVerticalMovements.invalidate()
     }
     
     @IBAction func resetMoveUpDown(_ sender: UISlider) {
@@ -45,13 +36,22 @@ extension ViewController: AirplaneControllerDelegate{
         }
         yRotation = sender.value
     }
-    
-    @IBAction func speedControl(_ sender: UISlider) {
-        zPosition = sender.value * 0.25
-    }
-    
+
     @IBAction func startEngine(_ sender: UIButton) {
         startEngine = true
+    }
+    
+    @objc func engineSliderValueChanged(_ rangeSlider: RangeSlider) {
+        zPosition = Float(rangeSlider.upperValue/4)
+    }
+    
+    @objc func rudderSliderValueChanged(_ rangeSlider: RangeSlider) {
+        xRotation = Float(-(rangeSlider.upperValue * 2 - 1))
+    }
+    
+    @objc func upDownSliderValueChanged(_ rangeSlider: RangeSlider) {
+        yRotation = Float(-(rangeSlider.upperValue * 2 - 1))
+        
     }
     
     //MARK: -Plane Rendering Methods
