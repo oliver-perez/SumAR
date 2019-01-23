@@ -27,11 +27,19 @@ func numberGenerator(){
 
 // MARK: - Send data to screen
 func randomSum(_ currentLevel: Int) -> Level {
-    let randomChoice = GKRandomDistribution(lowestValue: levels[currentLevel].minNum, highestValue: levels[currentLevel].maxNum)
-    let addendOne: Int = randomChoice.nextInt()
+    
+    let addendOne: Int = getRandomNumbers(minRange: levels[currentLevel].minNum, maxRange: levels[currentLevel].maxNum)
     let addendTwo: Int = levels[currentLevel].goal - addendOne
-    //let sum: String = "\(addendOne) + \(addendTwo)"
-    //return sum
     let currentLevel: Level = Level(goal: levels[currentLevel].goal, minNum: addendOne, maxNum: addendTwo)
+    
     return currentLevel
+}
+
+// MARK: - Get random numbers
+func getRandomNumbers(minRange: Int, maxRange: Int) -> Int {
+    
+    let randomChoice = GKRandomDistribution(lowestValue: minRange, highestValue: maxRange)
+    let randomNumber = randomChoice.nextInt()
+    
+    return randomNumber
 }
