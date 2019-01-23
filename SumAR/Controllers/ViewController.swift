@@ -15,18 +15,6 @@ class ViewController: UIViewController {
 
     // MARK: - Outlets
     @IBOutlet var sceneView: ARSCNView!
-
-    @IBOutlet weak var heightSlider: UISlider!{
-        didSet{
-            heightSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
-        }
-    }
-    
-    @IBOutlet weak var engineSlider: UISlider!{
-        didSet{
-            engineSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
-        }
-    }
     
     @IBOutlet weak var sumLabel: UILabel!
     
@@ -54,12 +42,16 @@ class ViewController: UIViewController {
     var score: Int = 0
     var nextSum: Bool = false
     
+    let upDownSlider = RangeSlider(frame: .zero)
+    let rudderSlider = RangeSlider(frame: .zero)
+    let engineSlider = RangeSlider(frame: .zero)
+    
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         initScene()
+        setUICustomControllers()
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -77,6 +69,61 @@ class ViewController: UIViewController {
         // Pause the view's session
         sceneView.session.pause()
     }
+    
+    func setUICustomControllers() {
+        
+        view.addSubview(upDownSlider)
+        view.addSubview(rudderSlider)
+        view.addSubview(engineSlider)
+        
+        upDownSlider.addTarget(self, action: #selector(upDownSliderValueChanged(_:)),
+                               for: .valueChanged)
+        
+        upDownSlider.addTarget(self, action: #selector(resetMoveUpDown(_:)), for: .touchUpInside)
+        
+        rudderSlider.addTarget(self, action: #selector(rudderSliderValueChanged(_:)), for: .valueChanged)
+        
+        rudderSlider.addTarget(self, action: #selector(resetHorizontalDirection(_:)), for: .touchUpInside)
+        
+        engineSlider.addTarget(self, action: #selector(engineSliderValueChanged(_:)), for: .valueChanged)
+        
+    
+        
+        let time = DispatchTime.now() + 1
+        
+        DispatchQueue.main.asyncAfter(deadline: time) {
+            self.upDownSlider.trackHighlightTintColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
+            self.upDownSlider.thumbImage = #imageLiteral(resourceName: "RectThumb")
+            self.upDownSlider.highlightedThumbImage = #imageLiteral(resourceName: "HighlightedRect")
+            
+            self.rudderSlider.trackHighlightTintColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
+            self.rudderSlider.thumbImage = #imageLiteral(resourceName: "RectThumb")
+            self.rudderSlider.highlightedThumbImage = #imageLiteral(resourceName: "HighlightedRect")
+            
+            self.engineSlider.trackHighlightTintColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
+            self.engineSlider.thumbImage = #imageLiteral(resourceName: "RectThumb")
+            self.engineSlider.highlightedThumbImage = #imageLiteral(resourceName: "HighlightedRect")
+            
+        }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        
+        let height: CGFloat = view.frame.width / 7
+        let width: CGFloat = 60
+        
+        upDownSlider.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        upDownSlider.center = CGPoint(x: view.frame.width - 60, y: view.frame.height - height/2 - 20)
+        upDownSlider.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
+        
+        engineSlider.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        engineSlider.center = CGPoint(x: view.frame.width - 120, y: view.frame.height - height/2 - 20)
+        engineSlider.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
+        
+        rudderSlider.frame = CGRect(x: 0, y: 0, width: 150, height: width)
+        rudderSlider.center = CGPoint(x: 100, y: view.frame.height - height/2 - 15)
+    }
+    
 }
 
 

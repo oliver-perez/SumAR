@@ -13,7 +13,7 @@ class RangeSlider: UIControl {
     }
   }
 
-  var upperValue: CGFloat = 0.8 {
+  var upperValue: CGFloat = 0.5 {
     didSet {
       updateLayerFrames()
     }
