@@ -11,12 +11,6 @@ import SceneKit
 import ARKit
 import GameplayKit
 
-struct CollisionCategory: OptionSet {
-    let rawValue: Int
-    static let airplaneCategory  = CollisionCategory(rawValue: 1 << 0)
-    static let ringCategory = CollisionCategory(rawValue: 1 << 1)
-}
-
 extension ViewController: SCNPhysicsContactDelegate{
     
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
@@ -33,7 +27,7 @@ extension ViewController: SCNPhysicsContactDelegate{
             nextOperation()
         } else {
             print("* Suma incorrecta *")
-            //score = 0
+            score = 0
             //showExplosion(airplaneNode.worldPosition)
         }
 

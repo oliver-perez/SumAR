@@ -10,12 +10,6 @@ import Foundation
 import GameplayKit
 
 // MARK: - Variables
-struct Level {
-    var goal: Int
-    var minNum: Int
-    var maxNum: Int
-}
-
 var levels: [Level] = []
 
 // MARK: - Get data by level
