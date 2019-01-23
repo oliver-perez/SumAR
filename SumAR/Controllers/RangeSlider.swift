@@ -45,7 +45,6 @@ class RangeSlider: UIControl {
     }
   }
   
-  
   private let trackLayer = RangeSliderTrackLayer()
   private let upperThumbImageView = UIImageView()
   private var previousLocation = CGPoint()

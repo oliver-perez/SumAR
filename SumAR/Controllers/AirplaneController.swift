@@ -25,7 +25,8 @@ extension ViewController: AirplaneControllerDelegate{
         yRotation = Float(-(rangeSlider.upperValue * 2 - 1)) * 1.5
     }
 
-    @IBAction func startEngine(_ sender: UIButton) {
+    @objc func startEngine(sender: UIButton) {
+        sender.setBackgroundImage(#imageLiteral(resourceName: "orangeButton"), for: .normal)
         startEngine = true
     }
     

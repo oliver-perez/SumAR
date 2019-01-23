@@ -75,7 +75,7 @@ class ViewController: UIViewController {
         let height: CGFloat = view.frame.width / 7
         let button = UIButton(frame: CGRect(x: 60, y: view.frame.height - height/2 - 140, width: 80, height: 80))
         button.setBackgroundImage(#imageLiteral(resourceName: "greenButton"), for: .normal)
-        button.addTarget(self, action: #selector(buttonAction(sender:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(startEngine(sender:)), for: .touchUpInside)
         
         view.addSubview(button)
         view.addSubview(upDownSlider)
@@ -129,9 +129,6 @@ class ViewController: UIViewController {
         rudderSlider.center = CGPoint(x: 100, y: view.frame.height - height/2 - 15)
     }
     
-    @objc func buttonAction(sender: UIButton!) {
-        sender.setBackgroundImage(#imageLiteral(resourceName: "orangeButton"), for: .normal)
-    }
 }
 
 
