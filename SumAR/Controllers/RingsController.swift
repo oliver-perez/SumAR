@@ -118,7 +118,6 @@ extension ViewController: RingsControllerDelegate {
             }
             self.numberNodes.removeAll()
             self.scoreLabel.text = String(self.score)
-            self.sumLabel.text = "Congratulations!"
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: {

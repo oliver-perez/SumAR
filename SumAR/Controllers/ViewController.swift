@@ -111,9 +111,11 @@ class ViewController: UIViewController {
             self.engineSlider.highlightedThumbImage = #imageLiteral(resourceName: "HighlightedRect")
             
         }
+        
+        setSlidersSizeAndPosition()
     }
     
-    override func viewDidLayoutSubviews() {
+     func setSlidersSizeAndPosition() {
         
         let height: CGFloat = view.frame.width / 8
         
