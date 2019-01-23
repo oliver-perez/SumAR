@@ -30,7 +30,7 @@ extension ViewController: AirplaneControllerDelegate{
     }
     
     @objc func engineSliderValueChanged(_ rangeSlider: RangeSlider) {
-        zPosition = Float(rangeSlider.upperValue/3) + 1
+        zPosition = Float(rangeSlider.upperValue/2) + 0.25
     }
     
     @objc func rudderSliderValueChanged(_ rangeSlider: RangeSlider) {
