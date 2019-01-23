@@ -28,8 +28,10 @@ extension ViewController: SCNSceneRendererDelegate {
         let plane = createPlaneWith(withPlaneAnchor: planeAnchor)
         plane.name = "plane"
         planeNode = plane
+        
         airplaneNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
-        //airplaneNode.isHidden = false
+        airplaneNode.isHidden = false
+        
         node.addChildNode(planeNode)
         node.addChildNode(airplaneNode)
         

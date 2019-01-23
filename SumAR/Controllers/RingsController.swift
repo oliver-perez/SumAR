@@ -14,6 +14,7 @@ import GameplayKit
 
 extension ViewController: RingsControllerDelegate {
     
+    // MARK: - Instance objects on screen
     func addRingsNodes(){
         
         var angle:Float = 0.0
@@ -25,8 +26,6 @@ extension ViewController: RingsControllerDelegate {
             let blueParticleSystem = SCNParticleSystem(named: "stars", inDirectory: nil)
             
             let torus = SCNTorus(ringRadius: 0.2, pipeRadius: 0.025)
-            //let color = UIColor(hue: 25.0 / 359.0, saturation: 0.8, brightness: 0.7, alpha: 1.0)
-            //torus.firstMaterial?.diffuse.contents = color
             
             let gridMaterial = SCNMaterial()
             gridMaterial.diffuse.contents = UIImage(named: "art.scnassets/spaceshipTexture.jpg")
@@ -62,25 +61,24 @@ extension ViewController: RingsControllerDelegate {
         let radius:Float = 4.0
         let angleIncrement:Float = Float.pi * 2.0 / 4.0
         let grades: [Float] = [-Float.pi/2.0, -Float.pi, Float.pi/2, 0.0]
-        let randomChoice = GKRandomDistribution(lowestValue: 0, highestValue: 3)
-        let randomNode: Int = randomChoice.nextInt()
+        let randomNode: Int = getRandomNumbers(minRange: 0, maxRange: 3)
         
         for index in 0..<4 {
+            
             let nodeText = SCNNode()
             var text = SCNText()
+            
             if randomNode == index {
                 text = SCNText(string: String(goal), extrusionDepth: 0.1)
                 nodeText.name = String(goal)
             } else {
-                let randomChoiceGoal = GKRandomDistribution(lowestValue: 1, highestValue: 10)
-                let randomGoal: Int = randomChoiceGoal.nextInt()
+                let randomGoal: Int = getRandomNumbers(minRange: 1, maxRange: 10)
                 text = SCNText(string: String(randomGoal), extrusionDepth: 0.1)
                 nodeText.name = String(randomGoal)
             }
             
             text.font = UIFont.systemFont(ofSize: 0.5)
             text.flatness = 0.01
-            //text.firstMaterial?.diffuse.contents = UIColor.white
             let gridMaterial = SCNMaterial()
             gridMaterial.diffuse.contents = UIImage(named: "art.scnassets/spaceshipTexture.jpg")
             
@@ -100,6 +98,19 @@ extension ViewController: RingsControllerDelegate {
         }
     }
     
+    // MARK: - Display Sum
+    func obtainAddends(){
+        
+        let sum: Level = randomSum(0)
+        
+        currentLevel.goal = sum.goal
+        currentLevel.numOne = sum.minNum
+        currentLevel.numTwo = sum.maxNum
+        
+        sumLabel.text = "\(sum.minNum) + \(sum.maxNum)"
+        addNumbersNodes(goal: sum.goal)
+    }
+    
     func nextOperation(){
         DispatchQueue.main.async {
             for i in 0..<self.numberNodes.count {
@@ -115,17 +126,5 @@ extension ViewController: RingsControllerDelegate {
             self.nextSum = false
         })
     }
-
-    // MARK: - Display Sum
-    func obtainAddends(){
-        
-        let sum: Level = randomSum(0)
-        currentLevel.goal = sum.goal
-        currentLevel.numOne = sum.minNum
-        currentLevel.numTwo = sum.maxNum
-        sumLabel.text = "\(sum.minNum) + \(sum.maxNum)"
-        addNumbersNodes(goal: sum.goal)
-    }
-    
 }
 
