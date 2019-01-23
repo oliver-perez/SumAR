@@ -40,7 +40,7 @@ extension ViewController: SCNPhysicsContactDelegate{
                     startEngine = false
                     score = 0
                     DispatchQueue.main.async {
-                        self.showExplosion(self.airplaneNode.position)
+                        self.showExplosion(self.airplaneNode.worldPosition)
                         self.airplaneNode.removeFromParentNode()
                         self.planeNode.removeFromParentNode()
                         self.scoreLabel.text = String(self.score)
@@ -68,5 +68,14 @@ extension ViewController: SCNPhysicsContactDelegate{
     
     func showExplosion(_ position: SCNVector3) {
         print("<<<<<Explosion>>>>>")
+        let node = SCNNode()
+        let explosionParticleSystem = SCNParticleSystem(named: "explosion", inDirectory: nil)
+        
+        node.worldPosition = position
+        node.name = "explosion"
+        node.addParticleSystem(explosionParticleSystem!)
+        
+        sceneView.scene.rootNode.addChildNode(node)
+        
     }
 }
