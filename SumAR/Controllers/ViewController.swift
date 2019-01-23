@@ -79,9 +79,15 @@ class ViewController: UIViewController {
         upDownSlider.addTarget(self, action: #selector(upDownSliderValueChanged(_:)),
                                for: .valueChanged)
         
+        upDownSlider.addTarget(self, action: #selector(resetMoveUpDown(_:)), for: .touchUpInside)
+        
         rudderSlider.addTarget(self, action: #selector(rudderSliderValueChanged(_:)), for: .valueChanged)
         
+        rudderSlider.addTarget(self, action: #selector(resetHorizontalDirection(_:)), for: .touchUpInside)
+        
         engineSlider.addTarget(self, action: #selector(engineSliderValueChanged(_:)), for: .valueChanged)
+        
+    
         
         let time = DispatchTime.now() + 1
         

@@ -15,26 +15,14 @@ import GameplayKit
 extension ViewController: AirplaneControllerDelegate{
     
     
-    @IBAction func resetHorizontalDirection(_ sender: UISlider) {
-        sender.value = 0
-        xRotation = 0
+    @objc func resetHorizontalDirection(_ rangeSlider: RangeSlider) {
+        rangeSlider.upperValue = 0.5
+        xRotation = Float(-(rangeSlider.upperValue * 2 - 1)) * 1.5
     }
     
-    @IBAction func resetMoveUpDown(_ sender: UISlider) {
-        guard removeAirplane else { return }
-        sender.value = 0
-        timerVerticalMovements = Timer.scheduledTimer(withTimeInterval: 1/24, repeats: true) { (timer) in
-            if self.airplaneNode.eulerAngles.x > 0 {
-                self.airplaneNode.eulerAngles.x -= Float.pi/180 * 1 * self.zPosition
-            }else {
-                self.airplaneNode.eulerAngles.x += Float.pi/180 * 1 * self.zPosition
-            }
-            if abs(self.airplaneNode.eulerAngles.x) < Float.pi/180 * 1 {
-                self.airplaneNode.eulerAngles.x = 0
-                timer.invalidate()
-            }
-        }
-        yRotation = sender.value
+    @objc func resetMoveUpDown(_ rangeSlider: RangeSlider) {
+        rangeSlider.upperValue = 0.5
+        yRotation = Float(-(rangeSlider.upperValue * 2 - 1)) * 1.5
     }
 
     @IBAction func startEngine(_ sender: UIButton) {
@@ -42,7 +30,7 @@ extension ViewController: AirplaneControllerDelegate{
     }
     
     @objc func engineSliderValueChanged(_ rangeSlider: RangeSlider) {
-        zPosition = Float(rangeSlider.upperValue/3)
+        zPosition = Float(rangeSlider.upperValue/3) + 1
     }
     
     @objc func rudderSliderValueChanged(_ rangeSlider: RangeSlider) {
