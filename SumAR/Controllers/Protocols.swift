@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ARKit
 
 protocol AirplaneControllerDelegate: class {
     
@@ -18,7 +19,7 @@ protocol AirplaneControllerDelegate: class {
 
 protocol RingsControllerDelegate: class {
     func addRingsNodes()
-    func addNumbersNodes(goal: Int)
+    func addNumberToNode(number: String) -> SCNNode
     func nextOperation()
     func obtainAddends()
 }
