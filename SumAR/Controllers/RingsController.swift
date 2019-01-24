@@ -62,9 +62,7 @@ extension ViewController: RingsControllerDelegate {
             
             nodeText.position = SCNVector3(x: 0, y: 0, z: 0)
             node.addChildNode(nodeText)
-            
             node.addParticleSystem(blueParticleSystem!)
-            ringNodes.append(node)
             sceneView.scene.rootNode.addChildNode(node)
         }
         

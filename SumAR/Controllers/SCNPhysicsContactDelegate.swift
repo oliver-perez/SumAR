@@ -19,9 +19,9 @@ extension ViewController: SCNPhysicsContactDelegate{
         
         print("** Collision!! " + contact.nodeA.name! + " hit " + contact.nodeB.name!)
         nextSum = true
-        let ringName = contact.nodeA.name == "ship" ? contact.nodeB.name : contact.nodeA.name
-        
-        if numberNodes[Int(ringName!)!].name == String(currentLevel.goal) {
+       if let ringName = contact.nodeA.name == "ship" ? contact.nodeB.childNodes.first?.name : contact.nodeA.childNodes.first?.name
+       {
+        if  ringName == String(currentLevel.goal) {
             print("* Suma correcta *")
             score += 10
             nextOperation()
@@ -30,8 +30,10 @@ extension ViewController: SCNPhysicsContactDelegate{
             score = 0
             //showExplosion(airplaneNode.worldPosition)
         }
-
+        
     }
+        
+}
     
     func showExplosion(_ position: SCNVector3) {
         print("<<<<<Explosion>>>>>")
