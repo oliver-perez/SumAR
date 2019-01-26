@@ -7,18 +7,19 @@
 //
 
 import UIKit
+import ARKit
 
 protocol AirplaneControllerDelegate: class {
     
     func rudderSliderValueChanged(_ rangeSlider: RangeSlider)
     func upDownSliderValueChanged(_ rangeSlider: RangeSlider)
     func engineSliderValueChanged(_ rangeSlider: RangeSlider)
-    func startEngine(_ sender: UIButton)
+    func startEngine(sender: UIButton)
 }
 
 protocol RingsControllerDelegate: class {
     func addRingsNodes()
-    func addNumbersNodes(goal: Int)
+    func addNumberToNode(number: String) -> SCNNode
     func nextOperation()
     func obtainAddends()
 }

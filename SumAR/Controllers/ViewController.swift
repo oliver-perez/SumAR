@@ -72,6 +72,12 @@ class ViewController: UIViewController {
     
     func setUICustomControllers() {
         
+        let height: CGFloat = view.frame.width / 7
+        let button = UIButton(frame: CGRect(x: 60, y: view.frame.height - height/2 - 140, width: 80, height: 80))
+        button.setBackgroundImage(#imageLiteral(resourceName: "greenButton"), for: .normal)
+        button.addTarget(self, action: #selector(startEngine(sender:)), for: .touchUpInside)
+        
+        view.addSubview(button)
         view.addSubview(upDownSlider)
         view.addSubview(rudderSlider)
         view.addSubview(engineSlider)
@@ -105,22 +111,23 @@ class ViewController: UIViewController {
             self.engineSlider.highlightedThumbImage = #imageLiteral(resourceName: "HighlightedRect")
             
         }
+        
+        setSlidersSizeAndPosition()
     }
     
-    override func viewDidLayoutSubviews() {
+     func setSlidersSizeAndPosition() {
         
-        let height: CGFloat = view.frame.width / 7
-        let width: CGFloat = 60
+        let height: CGFloat = view.frame.width / 8
         
-        upDownSlider.frame = CGRect(x: 0, y: 0, width: width, height: height)
-        upDownSlider.center = CGPoint(x: view.frame.width - 60, y: view.frame.height - height/2 - 20)
+        upDownSlider.frame = CGRect(x: 0, y: 0, width: 150, height: 60)
+        upDownSlider.center = CGPoint(x: view.frame.width - 60, y: view.frame.height - 110)
         upDownSlider.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
         
-        engineSlider.frame = CGRect(x: 0, y: 0, width: width, height: height)
-        engineSlider.center = CGPoint(x: view.frame.width - 120, y: view.frame.height - height/2 - 20)
+        engineSlider.frame = CGRect(x: 0, y: 0, width: 150, height: 60)
+        engineSlider.center = CGPoint(x: view.frame.width - 120, y: view.frame.height - 110)
         engineSlider.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
         
-        rudderSlider.frame = CGRect(x: 0, y: 0, width: 150, height: width)
+        rudderSlider.frame = CGRect(x: 0, y: 0, width: 150, height: 60)
         rudderSlider.center = CGPoint(x: 100, y: view.frame.height - height/2 - 15)
     }
     
