@@ -74,7 +74,6 @@
 		B1C6303D21F69274001BAA2B /* RendererController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererController.swift; sourceTree = "<group>"; };
 		B1DEE7BA21F6B06300511A67 /* RangeSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeSlider.swift; sourceTree = "<group>"; };
 		B1DEE7BC21F6B06A00511A67 /* RangeSliderTrackLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeSliderTrackLayer.swift; sourceTree = "<group>"; };
-		B1DEE7BE21F6B0DC00511A67 /* RangeSliderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeSliderViewController.swift; sourceTree = "<group>"; };
 		C026825421E59E1D0078FFDA /* LevelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelManager.swift; sourceTree = "<group>"; };
 		C05C264421EEE205003BCCE6 /* stars.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = stars.scnp; sourceTree = "<group>"; };
 		C05C264521EEE205003BCCE6 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
@@ -166,7 +165,6 @@
 		B19BD2B321DFDF10006E12CB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				B1DEE7BE21F6B0DC00511A67 /* RangeSliderViewController.swift */,
 				B1DEE7BC21F6B06A00511A67 /* RangeSliderTrackLayer.swift */,
 				B1DEE7BA21F6B06300511A67 /* RangeSlider.swift */,
 				B19BD28721DFC8BE006E12CB /* ViewController.swift */,
@@ -196,7 +194,7 @@
 				C0C3BB3D21F920FE006CB6CE /* Level.swift */,
 				C0C3BB3F21F92181006CB6CE /* CollisionCategory.swift */,
 			);
-			path = Models;
+			name = Models;
 			sourceTree = "<group>";
 		};
 		C05C264221EEE1D0003BCCE6 /* ParticleSystem */ = {
