@@ -12,8 +12,7 @@ import SceneKit
 import ARKit
 import GameplayKit
 
-extension ViewController: AirplaneControllerDelegate{
-    
+extension ViewController: AirplaneControls{
     
     @objc func resetHorizontalDirection(_ rangeSlider: RangeSlider) {
         rangeSlider.upperValue = 0.5

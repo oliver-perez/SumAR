@@ -9,7 +9,7 @@
 import UIKit
 import ARKit
 
-protocol AirplaneControllerDelegate: class {
+protocol AirplaneControls: class {
     
     func rudderSliderValueChanged(_ rangeSlider: RangeSlider)
     func upDownSliderValueChanged(_ rangeSlider: RangeSlider)
