@@ -11,8 +11,8 @@ import SceneKit
 
 class Airplane {
     
-    let node = SCNNode()
-    
+    var node = SCNNode()
+        
     func moveHorizontal(_ yaw: Float) {
         node.eulerAngles.x = Float(-(yaw * 2 - 1)) * 1.5
     }

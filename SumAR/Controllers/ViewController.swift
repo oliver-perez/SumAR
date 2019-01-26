@@ -24,6 +24,7 @@ class ViewController: UIViewController {
     var mainScene = SCNScene()
     var planeDidRender = Bool()
     var airplaneNode = SCNNode()
+    var airplane = Airplane()
     var ringNodes = [SCNNode]()
     var numberNodes = [SCNNode]()
     var explosion = SCNNode()

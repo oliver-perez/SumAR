@@ -18,16 +18,18 @@ extension ViewController: ARSCNViewDelegate{
         
         sceneView.delegate = self
         
-        let rocketScene = SCNScene(named: "art.scnassets/scene.scn")!
-        sceneView.scene = rocketScene
+        let mainScene = SCNScene(named: "art.scnassets/scene.scn")!
+        sceneView.scene = mainScene
         
         self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
        // sceneView.showsStatistics = true
         sceneView.autoenablesDefaultLighting = true
         sceneView.scene.physicsWorld.contactDelegate = self
         
-        if let airplane = rocketScene.rootNode.childNode(withName: "ship", recursively: true){
-            airplaneNode = airplane
+        if let node = mainScene.rootNode.childNode(withName: "ship", recursively: true){
+            airplaneNode = node
+            airplane.node = node
+            sceneView.scene.rootNode.addChildNode(airplane.node)
             airplaneNode.isHidden = true
         }
         
