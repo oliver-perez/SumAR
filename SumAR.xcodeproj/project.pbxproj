@@ -33,6 +33,8 @@
 		C0C3BB3E21F920FE006CB6CE /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C3BB3D21F920FE006CB6CE /* Level.swift */; };
 		C0C3BB4021F92181006CB6CE /* CollisionCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C3BB3F21F92181006CB6CE /* CollisionCategory.swift */; };
 		C0C3BB4221FEC855006CB6CE /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C3BB4121FEC855006CB6CE /* Plane.swift */; };
+		C0C3BB4421FED43B006CB6CE /* Ring.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C3BB4321FED43B006CB6CE /* Ring.swift */; };
+		C0C3BB4621FED491006CB6CE /* Number.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C3BB4521FED491006CB6CE /* Number.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +87,8 @@
 		C0C3BB3D21F920FE006CB6CE /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Level.swift; path = SumAR/ParticleSystem/Explosion/Level.swift; sourceTree = SOURCE_ROOT; };
 		C0C3BB3F21F92181006CB6CE /* CollisionCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CollisionCategory.swift; path = SumAR/ParticleSystem/Explosion/CollisionCategory.swift; sourceTree = SOURCE_ROOT; };
 		C0C3BB4121FEC855006CB6CE /* Plane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
+		C0C3BB4321FED43B006CB6CE /* Ring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ring.swift; sourceTree = "<group>"; };
+		C0C3BB4521FED491006CB6CE /* Number.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Number.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +203,8 @@
 				C0C3BB3F21F92181006CB6CE /* CollisionCategory.swift */,
 				C00B132321FCC7EA009AE812 /* Airplane.swift */,
 				C0C3BB4121FEC855006CB6CE /* Plane.swift */,
+				C0C3BB4321FED43B006CB6CE /* Ring.swift */,
+				C0C3BB4521FED491006CB6CE /* Number.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -380,8 +386,10 @@
 				B1C6303621F59045001BAA2B /* RingsController.swift in Sources */,
 				B1C6303E21F69274001BAA2B /* RendererController.swift in Sources */,
 				B1C6303221F553E8001BAA2B /* Protocols.swift in Sources */,
+				C0C3BB4421FED43B006CB6CE /* Ring.swift in Sources */,
 				B1DEE7BB21F6B06300511A67 /* RangeSlider.swift in Sources */,
 				C0C3BB3E21F920FE006CB6CE /* Level.swift in Sources */,
+				C0C3BB4621FED491006CB6CE /* Number.swift in Sources */,
 				C0C3BB4221FEC855006CB6CE /* Plane.swift in Sources */,
 				B1DEE7BD21F6B06A00511A67 /* RangeSliderTrackLayer.swift in Sources */,
 				B19BD28821DFC8BE006E12CB /* ViewController.swift in Sources */,
@@ -566,13 +574,13 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = A3K92PVTSQ;
+				DEVELOPMENT_TEAM = 74Y36QZ2V7;
 				INFOPLIST_FILE = "$(SRCROOT)/SumAR/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ludify.com.Sum;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ludify.com.SumAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -585,13 +593,13 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = A3K92PVTSQ;
+				DEVELOPMENT_TEAM = 74Y36QZ2V7;
 				INFOPLIST_FILE = "$(SRCROOT)/SumAR/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ludify.com.Sum;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ludify.com.SumAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

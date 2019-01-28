@@ -11,7 +11,7 @@ import UIKit
 import SceneKit
 import ARKit
 
-extension ViewController: RingsControllerDelegate {
+extension ViewController {
     
     // MARK: - Instance objects on screen
     func addRingsNodes(){
@@ -23,69 +23,22 @@ extension ViewController: RingsControllerDelegate {
         let randomNode: Int = getRandomNumbers(minRange: 0, maxRange: 3)
         
         for index in 0..<4 {
-            
-            let node = SCNNode()
+
             let blueParticleSystem = SCNParticleSystem(named: "stars", inDirectory: nil)
-            var nodeText = SCNNode()
+            var number = Number()
+            number = randomNode == index ? Number(value: currentLevel.goal) : Number(value: getRandomNumbers(minRange: 1, maxRange: 10))
             
-            if randomNode == index {
-                nodeText = addNumberToNode(number: String(currentLevel.goal))
-                nodeText.name = String(currentLevel.goal)
-            } else {
-                let randomGoal: Int = getRandomNumbers(minRange: 1, maxRange: 10)
-                nodeText = addNumberToNode(number: String(randomGoal))
-                nodeText.name = String(randomGoal)
-            }
             
-            let torus = SCNTorus(ringRadius: 0.2, pipeRadius: 0.025)
-            
-            let gridMaterial = SCNMaterial()
-            gridMaterial.diffuse.contents = UIImage(named: "art.scnassets/spaceshipTexture.jpg")
-            
-            torus.materials = [gridMaterial]
-            
-            let x = radius * cos(angle)
-            let y = radius * sin(angle)
-            
-            node.position = SCNVector3(x: x, y: y, z: -3.0)
-            node.eulerAngles.x = Float.pi/2
+            let ring = Ring(position: SCNVector3(x: radius * cos(angle), y: radius * sin(angle), z: -3.0))
             angle += angleIncrement
             
-            node.name = "\(index)"
-            node.geometry = torus
+            //number.node.position = SCNVector3(x: 0, y: 0, z: 0)
             
-            let body = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: node))
-            node.physicsBody = body
-            node.physicsBody?.categoryBitMask = CollisionCategory.ringCategory.rawValue
-            node.physicsBody?.contactTestBitMask = CollisionCategory.airplaneCategory.rawValue
-            node.physicsBody?.collisionBitMask = CollisionCategory.airplaneCategory.rawValue
-            
-            nodeText.position = SCNVector3(x: 0, y: 0, z: 0)
-            node.addChildNode(nodeText)
-            node.addParticleSystem(blueParticleSystem!)
-            sceneView.scene.rootNode.addChildNode(node)
+            ring.node.addChildNode(number.node)
+            ring.node.addParticleSystem(blueParticleSystem!)
+            sceneView.scene.rootNode.addChildNode(ring.node)
         }
         
-    }
-    
-    func addNumberToNode(number: String) -> SCNNode {
-        
-        let nodeText = SCNNode()
-        var text = SCNText()
-        
-        text = SCNText(string: number, extrusionDepth: 0.1)
-        text.font = UIFont.systemFont(ofSize: 0.5)
-        text.flatness = 0.01
-        let gridMaterial = SCNMaterial()
-        gridMaterial.diffuse.contents = UIImage(named: "art.scnassets/spaceshipTexture.jpg")
-        
-        text.materials = [gridMaterial]
-        
-        nodeText.geometry = text
-        nodeText.eulerAngles.x = -Float.pi/2
-        nodeText.scale = SCNVector3(x: 0.5,y: 0.5,z: 0.5)
-        
-        return nodeText
     }
     
     // MARK: - Display Sum
