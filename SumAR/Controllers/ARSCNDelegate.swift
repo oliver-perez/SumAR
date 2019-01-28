@@ -27,7 +27,7 @@ extension ViewController: ARSCNViewDelegate{
         sceneView.scene.physicsWorld.contactDelegate = self
         
         if let node = mainScene.rootNode.childNode(withName: "ship", recursively: true){
-            airplane.node = node
+            airplane = Airplane(with: node)
             airplane.node.isHidden = true
         }
         
