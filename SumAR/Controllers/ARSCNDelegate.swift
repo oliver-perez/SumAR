@@ -18,7 +18,7 @@ extension ViewController: ARSCNViewDelegate{
         
         sceneView.delegate = self
         
-        mainScene = SCNScene(named: "art.scnassets/scene.scn")!
+        mainScene = SCNScene(named: "art.scnassets/mainScene.scn")!
         sceneView.scene = mainScene
         
         self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]

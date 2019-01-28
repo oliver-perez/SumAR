@@ -21,7 +21,7 @@ extension ViewController: SCNSceneRendererDelegate {
 
         plane = Plane(with: planeAnchor)
         
-        if let node = mainScene.rootNode.childNode(withName: "ship", recursively: true){
+        if let node = SCNScene(named: "art.scnassets/ship.scn")!.rootNode.childNode(withName: "ship", recursively: true){
             airplane = Airplane(with: node)
             airplane.setPosition(at: SCNVector3(x: planeAnchor.center.x, y: 0, z: planeAnchor.center.z))
         }
