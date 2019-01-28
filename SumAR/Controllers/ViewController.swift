@@ -33,9 +33,9 @@ class ViewController: UIViewController {
     var timer = Timer()
     var currentLevel = (goal: 0,numOne: 0, numTwo: 0)
 
-    var xRotation: Float = 0
-    var yRotation: Float = 0
-    var zPosition: Float = 0.5
+    var yawRotation: Float = 0
+    var pitchRotation: Float = 0
+    var speedValue: Float = 0.5
     
     var timerVerticalMovements = Timer()
     var startEngine = false

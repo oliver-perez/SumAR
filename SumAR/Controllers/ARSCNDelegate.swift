@@ -27,10 +27,11 @@ extension ViewController: ARSCNViewDelegate{
         sceneView.scene.physicsWorld.contactDelegate = self
         
         if let node = mainScene.rootNode.childNode(withName: "ship", recursively: true){
-            airplaneNode = node
+            //airplaneNode = node
             airplane.node = node
-            sceneView.scene.rootNode.addChildNode(airplane.node)
-            airplaneNode.isHidden = true
+            airplane.node.isHidden = true
+            //sceneView.scene.rootNode.addChildNode(airplane.node)
+            //airplaneNode.isHidden = true
         }
         
         numberGenerator()

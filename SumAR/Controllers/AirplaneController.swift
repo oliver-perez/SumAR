@@ -16,12 +16,12 @@ extension ViewController: AirplaneControls{
     
     @objc func resetHorizontalDirection(_ rangeSlider: RangeSlider) {
         rangeSlider.upperValue = 0.5
-        xRotation = Float(-(rangeSlider.upperValue * 2 - 1)) * 1.5
+        yawRotation = Float(-(rangeSlider.upperValue * 2 - 1)) * 1.5
     }
     
     @objc func resetMoveUpDown(_ rangeSlider: RangeSlider) {
         rangeSlider.upperValue = 0.5
-        yRotation = Float(-(rangeSlider.upperValue * 2 - 1)) * 1.5
+        pitchRotation = Float(-(rangeSlider.upperValue * 2 - 1)) * 1.5
     }
 
     @objc func startEngine(sender: UIButton) {
@@ -30,15 +30,15 @@ extension ViewController: AirplaneControls{
     }
     
     @objc func engineSliderValueChanged(_ rangeSlider: RangeSlider) {
-        zPosition = Float(rangeSlider.upperValue/2) + 0.25
+        speedValue = Float(rangeSlider.upperValue/2) + 0.25
     }
     
     @objc func rudderSliderValueChanged(_ rangeSlider: RangeSlider) {
-        xRotation = Float(-(rangeSlider.upperValue * 2 - 1)) * 1.5
+        yawRotation = Float(-(rangeSlider.upperValue * 2 - 1)) * 1.5
     }
     
     @objc func upDownSliderValueChanged(_ rangeSlider: RangeSlider) {
-        yRotation = Float(-(rangeSlider.upperValue * 2 - 1)) * 1.5
+        pitchRotation = Float(-(rangeSlider.upperValue * 2 - 1)) * 1.5
     }
     
     //MARK: -Plane Rendering Methods
