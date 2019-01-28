@@ -16,17 +16,17 @@ extension ViewController: SCNSceneRendererDelegate {
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         
-        
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
         guard !planeDidRender else { return }
 
-        let plane = createPlaneWith(withPlaneAnchor: planeAnchor)
-        plane.name = "plane"
-        planeNode = plane
+        plane = Plane(with: planeAnchor)
+        
+        if let node = mainScene.rootNode.childNode(withName: "ship", recursively: true){
+            airplane = Airplane(with: node)
+            airplane.setPosition(at: SCNVector3(x: planeAnchor.center.x, y: 0, z: planeAnchor.center.z))
+        }
 
-        airplane.node.isHidden = false
-        airplane.node.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
-        node.addChildNode(planeNode)
+        node.addChildNode(plane.node)
         node.addChildNode(airplane.node)
         
         addRingsNodes()

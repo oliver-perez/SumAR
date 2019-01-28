@@ -41,24 +41,4 @@ extension ViewController: AirplaneControls{
         pitchRotation = Float(-(rangeSlider.upperValue * 2 - 1)) * 1.5
     }
     
-    //MARK: -Plane Rendering Methods
-    
-    func createPlaneWith(withPlaneAnchor planeAnchor: ARPlaneAnchor) -> SCNNode{
-        
-        let plane = SCNPlane(width: 0.5, height: 0.5)
-        let planeNode = SCNNode()
-        
-        planeNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
-        
-        planeNode.transform = SCNMatrix4MakeRotation(-Float.pi/2, 1, 0, 0)
-        
-        let gridMaterial = SCNMaterial()
-        gridMaterial.diffuse.contents = UIImage(named: "art.scnassets/grid.png")
-        
-        plane.materials = [gridMaterial]
-        planeNode.geometry = plane
-        
-        return planeNode
-    }
-    
 }

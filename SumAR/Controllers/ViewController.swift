@@ -22,26 +22,25 @@ class ViewController: UIViewController {
     
     // MARK: - Variables
     var mainScene = SCNScene()
-    var planeDidRender = Bool()
-    var airplaneNode = SCNNode()
+    
     var airplane = Airplane(with: SCNNode())
+    var plane = Plane()
+    
     var ringNodes = [SCNNode]()
     var numberNodes = [SCNNode]()
-    var explosion = SCNNode()
-    var planeNode = SCNNode()
-    var removeAirplane = false
-    var timer = Timer()
+
     var currentLevel = (goal: 0,numOne: 0, numTwo: 0)
 
     var yawRotation: Float = 0
     var pitchRotation: Float = 0
     var speedValue: Float = 0.5
     
-    var timerVerticalMovements = Timer()
-    var startEngine = false
-    
     var score: Int = 0
+    
     var nextSum: Bool = false
+    var startEngine: Bool = false
+    var removeAirplane: Bool = false
+    var planeDidRender: Bool = false
     
     let upDownSlider = RangeSlider(frame: .zero)
     let rudderSlider = RangeSlider(frame: .zero)

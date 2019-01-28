@@ -22,6 +22,11 @@ class Airplane {
         node.physicsBody?.contactTestBitMask = CollisionCategory.ringCategory.rawValue
     }
     
+    func setPosition(at position: SCNVector3) {
+        
+        node.position = position
+    }
+    
     func moveHorizontal(_ yaw: Float) {
         node.eulerAngles.y += 0.01 * yaw
     }
