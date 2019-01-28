@@ -16,6 +16,7 @@ extension ViewController: SCNSceneRendererDelegate {
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         
+        
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
         guard !planeDidRender else { return }
 
@@ -25,8 +26,8 @@ extension ViewController: SCNSceneRendererDelegate {
 
         airplane.node.isHidden = false
         airplane.node.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
-        sceneView.scene.rootNode.addChildNode(planeNode)
-        sceneView.scene.rootNode.addChildNode(airplane.node)
+        node.addChildNode(planeNode)
+        node.addChildNode(airplane.node)
         
         addRingsNodes()
         planeDidRender = true
@@ -34,14 +35,14 @@ extension ViewController: SCNSceneRendererDelegate {
     }
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        
+
         guard startEngine else { return }
 
         airplane.moveHorizontal(self.yawRotation)
         airplane.moveVertical(self.pitchRotation)
         airplane.setVelocity(self.speedValue)
     }
-    
+
     
 }
 

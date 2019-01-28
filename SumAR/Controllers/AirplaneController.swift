@@ -49,6 +49,7 @@ extension ViewController: AirplaneControls{
         let planeNode = SCNNode()
         
         planeNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
+        
         planeNode.transform = SCNMatrix4MakeRotation(-Float.pi/2, 1, 0, 0)
         
         let gridMaterial = SCNMaterial()
