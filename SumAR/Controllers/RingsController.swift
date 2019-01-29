@@ -20,12 +20,12 @@ extension ViewController {
         let radius:Float = 0.75
         let angleIncrement:Float = Float.pi * 2.0 / 3.0
         
-        let randomNode: Int = getRandomNumbers(minRange: 0, maxRange: 2)
+        let randomNode: Int = LevelManager.shared.getRandomNumbers(minRange: 0, maxRange: 2)
         
         for index in 0..<3 {
 
             var number = Number()
-            number = randomNode == index ? Number(value: currentLevel.goal) : Number(value: getRandomNumbers(minRange: 1, maxRange: 10))
+            number = randomNode == index ? Number(value: currentLevel.goal) : Number(value: LevelManager.shared.getRandomNumbers(minRange: 1, maxRange: 10))
             
             let ring = Ring(position: SCNVector3(x: radius * cos(angle), y: radius * sin(angle), z: -3.0))
             angle += angleIncrement
@@ -55,7 +55,7 @@ extension ViewController {
     // MARK: - Display Sum
     func obtainAddends(){
         
-        let sum: Level = randomSum(0)
+        let sum: Level = LevelManager.shared.randomSum(0)
         
         currentLevel.goal = sum.goal
         currentLevel.numOne = sum.minNum

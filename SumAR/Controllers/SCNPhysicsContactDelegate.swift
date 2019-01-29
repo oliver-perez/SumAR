@@ -29,7 +29,7 @@ extension ViewController: SCNPhysicsContactDelegate{
         } else {
             print("* Suma incorrecta *")
             score = 0
-            //airplane.showExplosion()
+            airplane.showExplosion()
         }
     }
 }
