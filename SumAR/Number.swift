@@ -31,6 +31,7 @@ class Number {
         
         node.geometry = text
         node.eulerAngles.x = -Float.pi/2
+        node.position = SCNVector3(x: -0.2, y: 0, z: 0.2)
         node.scale = SCNVector3(x: 0.5,y: 0.5,z: 0.5)
         
         node.name = "\(value)"

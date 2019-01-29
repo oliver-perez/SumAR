@@ -19,6 +19,7 @@ extension ViewController: SCNPhysicsContactDelegate{
         
         print("** Collision!! " + contact.nodeA.name! + " hit " + contact.nodeB.name!)
         nextSum = true
+        
        if let ringName = contact.nodeA.name == "ship" ? contact.nodeB.childNodes.first?.name : contact.nodeA.childNodes.first?.name
        {
         if  ringName == String(currentLevel.goal) {

@@ -18,27 +18,38 @@ extension ViewController {
         
         var angle:Float = 0.0
         let radius:Float = 0.75
-        let angleIncrement:Float = Float.pi * 2.0 / 4.0
+        let angleIncrement:Float = Float.pi * 2.0 / 3.0
         
-        let randomNode: Int = getRandomNumbers(minRange: 0, maxRange: 3)
+        let randomNode: Int = getRandomNumbers(minRange: 0, maxRange: 2)
         
-        for index in 0..<4 {
+        for index in 0..<3 {
 
-            let blueParticleSystem = SCNParticleSystem(named: "stars", inDirectory: nil)
             var number = Number()
             number = randomNode == index ? Number(value: currentLevel.goal) : Number(value: getRandomNumbers(minRange: 1, maxRange: 10))
-            
             
             let ring = Ring(position: SCNVector3(x: radius * cos(angle), y: radius * sin(angle), z: -3.0))
             angle += angleIncrement
             
-            //number.node.position = SCNVector3(x: 0, y: 0, z: 0)
-            
             ring.node.addChildNode(number.node)
-            ring.node.addParticleSystem(blueParticleSystem!)
             sceneView.scene.rootNode.addChildNode(ring.node)
         }
         
+    }
+    
+    func nextOperation(){
+        DispatchQueue.main.async {
+            self.sceneView.scene.rootNode.enumerateChildNodes { (node, _) in
+                if node.name == "ring" {
+                    node.removeFromParentNode()
+                }
+            }
+            self.scoreLabel.text = String(self.score)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: {
+            self.obtainAddends()
+            self.nextSum = false
+        })
     }
     
     // MARK: - Display Sum
@@ -51,22 +62,9 @@ extension ViewController {
         currentLevel.numTwo = sum.maxNum
         
         sumLabel.text = "\(sum.minNum) + \(sum.maxNum)"
-        //addNumbersNodes(goal: sum.goal)
+        //addRingsNodes()
     }
+
     
-    func nextOperation(){
-        DispatchQueue.main.async {
-            for i in 0..<self.numberNodes.count {
-                self.numberNodes[i].removeFromParentNode()
-            }
-            self.numberNodes.removeAll()
-            self.scoreLabel.text = String(self.score)
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: {
-            self.obtainAddends()
-            self.nextSum = false
-        })
-    }
 }
 

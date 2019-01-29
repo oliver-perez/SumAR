@@ -25,9 +25,6 @@ class ViewController: UIViewController {
     
     var airplane = Airplane(with: SCNNode())
     var plane = Plane()
-    
-    var ringNodes = [SCNNode]()
-    var numberNodes = [SCNNode]()
 
     var currentLevel = (goal: 0,numOne: 0, numTwo: 0)
 

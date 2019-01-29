@@ -20,6 +20,8 @@ class Ring {
         let gridMaterial = SCNMaterial()
         gridMaterial.diffuse.contents = UIImage(named: "art.scnassets/spaceshipTexture.jpg")
         
+        let blueParticleSystem = SCNParticleSystem(named: "stars", inDirectory: nil)
+        
         torus.materials = [gridMaterial]
 
         node.position = position
@@ -33,5 +35,7 @@ class Ring {
         node.physicsBody?.categoryBitMask = CollisionCategory.ringCategory.rawValue
         node.physicsBody?.contactTestBitMask = CollisionCategory.airplaneCategory.rawValue
         node.physicsBody?.collisionBitMask = CollisionCategory.airplaneCategory.rawValue
+        
+        node.addParticleSystem(blueParticleSystem!)
     }
 }
