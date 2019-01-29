@@ -39,4 +39,18 @@ class Airplane {
         node.localTranslate(by: SCNVector3(0, 0, 0.01 * speed))
     }
     
+    func showExplosion() {
+        
+        //let node = SCNNode()
+        let explosionParticleSystem = SCNParticleSystem(named: "explosion", inDirectory: nil)
+        /*
+        node.worldPosition = position
+        node.name = "explosion"
+        node.addParticleSystem(explosionParticleSystem!)
+        
+        sceneView.scene.rootNode.addChildNode(node)
+        */
+        node.addParticleSystem(explosionParticleSystem!)
+    }
+    
 }

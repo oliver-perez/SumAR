@@ -29,23 +29,9 @@ extension ViewController: SCNPhysicsContactDelegate{
         } else {
             print("* Suma incorrecta *")
             score = 0
-            //showExplosion(airplaneNode.worldPosition)
+            //airplane.showExplosion()
         }
-        
     }
-        
 }
     
-    func showExplosion(_ position: SCNVector3) {
-        print("<<<<<Explosion>>>>>")
-        let node = SCNNode()
-        let explosionParticleSystem = SCNParticleSystem(named: "explosion", inDirectory: nil)
-        
-        node.worldPosition = position
-        node.name = "explosion"
-        node.addParticleSystem(explosionParticleSystem!)
-        
-        sceneView.scene.rootNode.addChildNode(node)
-        
-    }
 }
