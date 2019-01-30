@@ -26,7 +26,7 @@ extension ViewController: SCNPhysicsContactDelegate{
             print("* Suma correcta *")
             score += 10
             destroyAllRings()
-            scoreLabel.text = String(score)
+            updateScoreLabel()
             Timer.scheduledTimer(withTimeInterval: 3, repeats: false) {_ in
                 self.obtainAddends()
             }
@@ -36,7 +36,7 @@ extension ViewController: SCNPhysicsContactDelegate{
             score = 0
             //airplane.showExplosion()
             destroyAllRings()
-            scoreLabel.text = String(score)
+            updateScoreLabel()
             Timer.scheduledTimer(withTimeInterval: 3, repeats: false) {_ in
                 self.obtainAddends()
             }

@@ -130,11 +130,17 @@ class ViewController: UIViewController {
     
     func updateSumLabel() {
         
-        DispatchQueue.main.sync {
-            sumLabel.text = "\(currentLevel.numOne) + \(currentLevel.numTwo)"
+        DispatchQueue.main.async {
+            self.sumLabel.text = "\(self.currentLevel.numOne) + \(self.currentLevel.numTwo)"
         }
     }
     
+    func updateScoreLabel() {
+        
+        DispatchQueue.main.async {
+            self.scoreLabel.text = String(self.score)
+        }
+    }
 }
 
 
