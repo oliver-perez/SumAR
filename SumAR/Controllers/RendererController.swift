@@ -25,7 +25,7 @@ extension ViewController: SCNSceneRendererDelegate {
         node.addChildNode(plane.node)
         node.addChildNode(airplane.node)
         
-        addRingsNodes()
+        obtainAddends()
         planeDidRender = true
         
     }

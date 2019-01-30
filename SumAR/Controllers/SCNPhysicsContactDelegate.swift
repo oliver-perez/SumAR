@@ -25,11 +25,21 @@ extension ViewController: SCNPhysicsContactDelegate{
         if  ringName == String(currentLevel.goal) {
             print("* Suma correcta *")
             score += 10
-            nextOperation()
+            destroyAllRings()
+            scoreLabel.text = String(score)
+            Timer.scheduledTimer(withTimeInterval: 3, repeats: false) {_ in
+                self.obtainAddends()
+            }
+            
         } else {
             print("* Suma incorrecta *")
             score = 0
-            airplane.showExplosion()
+            //airplane.showExplosion()
+            destroyAllRings()
+            scoreLabel.text = String(score)
+            Timer.scheduledTimer(withTimeInterval: 3, repeats: false) {_ in
+                self.obtainAddends()
+            }
         }
     }
 }

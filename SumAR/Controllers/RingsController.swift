@@ -36,20 +36,20 @@ extension ViewController {
         
     }
     
-    func nextOperation(){
+    func destroyAllRings(){
         DispatchQueue.main.async {
             self.sceneView.scene.rootNode.enumerateChildNodes { (node, _) in
                 if node.name == "ring" {
                     node.removeFromParentNode()
                 }
             }
-            self.scoreLabel.text = String(self.score)
         }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: {
+        /*
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
             self.obtainAddends()
             self.nextSum = false
         })
+        */
     }
     
     // MARK: - Display Sum
@@ -61,8 +61,10 @@ extension ViewController {
         currentLevel.numOne = sum.minNum
         currentLevel.numTwo = sum.maxNum
         
-        sumLabel.text = "\(sum.minNum) + \(sum.maxNum)"
-        //addRingsNodes()
+        addRingsNodes()
+        nextSum = false
+        
+        updateSumLabel()
     }
 
     

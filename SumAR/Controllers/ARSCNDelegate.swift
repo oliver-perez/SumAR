@@ -30,7 +30,6 @@ extension ViewController: ARSCNViewDelegate{
         sceneView.scene.physicsWorld.contactDelegate = self
         
         LevelManager.shared.numberGenerator()
-        obtainAddends()
     }
     
 }

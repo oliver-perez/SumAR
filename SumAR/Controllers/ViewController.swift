@@ -128,6 +128,13 @@ class ViewController: UIViewController {
         rudderSlider.center = CGPoint(x: 100, y: view.frame.height - height/2 - 15)
     }
     
+    func updateSumLabel() {
+        
+        DispatchQueue.main.sync {
+            sumLabel.text = "\(currentLevel.numOne) + \(currentLevel.numTwo)"
+        }
+    }
+    
 }
 
 
