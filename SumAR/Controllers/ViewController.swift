@@ -9,62 +9,45 @@
 import UIKit
 import SceneKit
 import ARKit
+import GameplayKit
 
-class ViewController: UIViewController, ARSCNViewDelegate {
+class ViewController: UIViewController {
 
     // MARK: - Outlets
     @IBOutlet var sceneView: ARSCNView!
-
-    @IBOutlet weak var heightSlider: UISlider!{
-        didSet{
-            heightSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
-        }
-    }
-    
-    @IBOutlet weak var engineSlider: UISlider!{
-        didSet{
-            engineSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
-        }
-    }
     
     @IBOutlet weak var sumLabel: UILabel!
     
+    @IBOutlet weak var scoreLabel: UILabel!
+    
     // MARK: - Variables
     var mainScene = SCNScene()
-    var planeDidRender = Bool()
-    var airplaneNode = SCNNode()
-    var ringNode = SCNNode()
-
-    var xPosition: Float = 0
-    var yPosition: Float = 0
-    var zPosition: Float = 0.5
     
-    var xAngle: Float = 0
-    var timerVerticalMovements = Timer()
+    var airplane = Airplane(with: SCNNode())
+    var plane = Plane()
+
+    var currentLevel = (goal: 0,numOne: 0, numTwo: 0)
+
+    var yawRotation: Float = 0
+    var pitchRotation: Float = 0
+    var speedValue: Float = 0.5
+    
+    var score: Int = 0
+    
+    var nextSum: Bool = false
+    var startEngine: Bool = false
+    var removeAirplane: Bool = false
+    var planeDidRender: Bool = false
+    
+    let upDownSlider = RangeSlider(frame: .zero)
+    let rudderSlider = RangeSlider(frame: .zero)
+    let engineSlider = RangeSlider(frame: .zero)
     
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Set the view's delegate
-        sceneView.delegate = self
-        sceneView.scene.physicsWorld.contactDelegate = self
-        
-        self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
-        // Show statistics such as fps and timing information
-        sceneView.showsStatistics = true
-        mainScene = SCNScene(named: "art.scnassets/ship.scn")!
-        if let airplane = mainScene.rootNode.childNode(withName: "ship", recursively: true){
-            airplaneNode = airplane
-        }
-        
-        if let ring = mainScene.rootNode.childNode(withName: "torus", recursively: true){
-            ringNode = ring
-        }
-        
-        sceneView.autoenablesDefaultLighting = true
-        numberGenerator()
-        obtainAddends()
-        addRingsNodes()
+        initScene()
+        setUICustomControllers()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,7 +56,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
         configuration.planeDetection = .horizontal
-
         // Run the view's session
         sceneView.session.run(configuration)
     }
@@ -84,179 +66,81 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Pause the view's session
         sceneView.session.pause()
     }
-
-    // MARK: - ARSCNViewDelegate
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    
+    func setUICustomControllers() {
         
-        if let touch = touches.first {
+        let height: CGFloat = view.frame.width / 7
+        let button = UIButton(frame: CGRect(x: 60, y: view.frame.height - height/2 - 140, width: 80, height: 80))
+        button.setBackgroundImage(#imageLiteral(resourceName: "greenButton"), for: .normal)
+        button.addTarget(self, action: #selector(startEngine(sender:)), for: .touchUpInside)
+        
+        view.addSubview(button)
+        view.addSubview(upDownSlider)
+        view.addSubview(rudderSlider)
+        view.addSubview(engineSlider)
+        
+        upDownSlider.addTarget(self, action: #selector(upDownSliderValueChanged(_:)),
+                               for: .valueChanged)
+        
+        upDownSlider.addTarget(self, action: #selector(resetMoveUpDown(_:)), for: .touchUpInside)
+        
+        rudderSlider.addTarget(self, action: #selector(rudderSliderValueChanged(_:)), for: .valueChanged)
+        
+        rudderSlider.addTarget(self, action: #selector(resetHorizontalDirection(_:)), for: .touchUpInside)
+        
+        engineSlider.addTarget(self, action: #selector(engineSliderValueChanged(_:)), for: .valueChanged)
+        
+    
+        
+        let time = DispatchTime.now() + 1
+        
+        DispatchQueue.main.asyncAfter(deadline: time) {
+            self.upDownSlider.trackHighlightTintColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
+            self.upDownSlider.thumbImage = #imageLiteral(resourceName: "RectThumb")
+            self.upDownSlider.highlightedThumbImage = #imageLiteral(resourceName: "HighlightedRect")
             
-            let touchLocation = touch.location(in: sceneView)
+            self.rudderSlider.trackHighlightTintColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
+            self.rudderSlider.thumbImage = #imageLiteral(resourceName: "RectThumb")
+            self.rudderSlider.highlightedThumbImage = #imageLiteral(resourceName: "HighlightedRect")
             
-            let results = sceneView.hitTest(touchLocation, types: .existingPlaneUsingExtent)
+            self.engineSlider.trackHighlightTintColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
+            self.engineSlider.thumbImage = #imageLiteral(resourceName: "RectThumb")
+            self.engineSlider.highlightedThumbImage = #imageLiteral(resourceName: "HighlightedRect")
             
-            if let hitResult = results.first {
-                
-                if let airplaneNode = mainScene.rootNode.childNode(withName: "ship", recursively: true){
-                    airplaneNode.position = SCNVector3(
-                        x: hitResult.worldTransform.columns.3.x,
-                        y: hitResult.worldTransform.columns.3.y + 0.01,
-                        z: hitResult.worldTransform.columns.3.z)
-                    sceneView.scene.rootNode.addChildNode(airplaneNode)
-                }
-            }
+        }
+        
+        setSlidersSizeAndPosition()
+    }
+    
+     func setSlidersSizeAndPosition() {
+        
+        let height: CGFloat = view.frame.width / 8
+        
+        upDownSlider.frame = CGRect(x: 0, y: 0, width: 150, height: 60)
+        upDownSlider.center = CGPoint(x: view.frame.width - 60, y: view.frame.height - 110)
+        upDownSlider.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
+        
+        engineSlider.frame = CGRect(x: 0, y: 0, width: 150, height: 60)
+        engineSlider.center = CGPoint(x: view.frame.width - 120, y: view.frame.height - 110)
+        engineSlider.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
+        
+        rudderSlider.frame = CGRect(x: 0, y: 0, width: 150, height: 60)
+        rudderSlider.center = CGPoint(x: 100, y: view.frame.height - height/2 - 15)
+    }
+    
+    func updateSumLabel() {
+        
+        DispatchQueue.main.async {
+            self.sumLabel.text = "\(self.currentLevel.numOne) + \(self.currentLevel.numTwo)"
         }
     }
     
-    
-    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        if (anchor is ARPlaneAnchor) && !planeDidRender {
-            
-            let planeAnchor = anchor as! ARPlaneAnchor
-            let plane = SCNPlane(width: 0.5, height: 0.5)
-            
-            let planeNode = SCNNode()
-
-            planeNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
-            planeNode.transform = SCNMatrix4MakeRotation(-Float.pi/2, 1, 0, 0)
-            airplaneNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
-
-            let gridMaterial = SCNMaterial()
-            
-            gridMaterial.diffuse.contents = UIImage(named: "art.scnassets/grid.png")
-            
-            plane.materials = [gridMaterial]
-            planeNode.geometry = plane
-            
-            let body = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(node: airplaneNode))
-            airplaneNode.physicsBody = body
-            airplaneNode.physicsBody?.categoryBitMask = CollisionCategory.airplaneCategory.rawValue
-            airplaneNode.physicsBody?.collisionBitMask = CollisionCategory.ringCategory.rawValue
-            airplaneNode.physicsBody?.contactTestBitMask = CollisionCategory.ringCategory.rawValue
-            
-            let bodyRing = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: ringNode))
-            ringNode.physicsBody = bodyRing
-            ringNode.physicsBody?.categoryBitMask = CollisionCategory.ringCategory.rawValue
-            ringNode.physicsBody?.collisionBitMask = CollisionCategory.airplaneCategory.rawValue
-            ringNode.physicsBody?.contactTestBitMask = CollisionCategory.airplaneCategory.rawValue
-
-            node.addChildNode(planeNode)
-            node.addChildNode(airplaneNode)
-            node.addChildNode(ringNode)
-          //  movePlane()
-            planeDidRender = true
-            
-        } else{
-            return
-        }
-    }
-    
-    // MARK: - Actions
-    @IBAction func moveRightLeft(_ sender: UISlider) {
+    func updateScoreLabel() {
         
-        xPosition = -sender.value * 2.5
-    
-    }
-    
-    @IBAction func resetHorizontalDirection(_ sender: UISlider) {
-        
-        sender.value = 0
-        xPosition = 0
-    }
-    
-    
-    @IBAction func moveUpDown(_ sender: UISlider) {
-        
-        yPosition = -sender.value * 2
-        timerVerticalMovements.invalidate()
-    }
-    
-    
-    @IBAction func resetMoveUpDown(_ sender: UISlider) {
-        
-       sender.value = 0
-        
-       timerVerticalMovements = Timer.scheduledTimer(withTimeInterval: 1/24, repeats: true) { (timer) in
-            if self.airplaneNode.eulerAngles.x > 0 {
-                self.airplaneNode.eulerAngles.x -= Float.pi/180 * 1 * self.zPosition
-            }else {
-                self.airplaneNode.eulerAngles.x += Float.pi/180 * 1 * self.zPosition
-            }
-            if abs(self.airplaneNode.eulerAngles.x) < Float.pi/180 * 1 {
-               self.airplaneNode.eulerAngles.x = 0
-               timer.invalidate()
-            }
-        }
-        
-        yPosition = sender.value
-      
-    }
-    
-    @IBAction func speedControl(_ sender: UISlider) {
-        zPosition = sender.value
-    }
-    
-    @IBAction func startEngine(_ sender: UIButton) {
-        Timer.scheduledTimer(withTimeInterval: 1/24, repeats: true) { (timer) in
-            self.airplaneNode.localTranslate(by: SCNVector3(0,0,0.01 * self.zPosition))
-            self.airplaneNode.eulerAngles.y += Float.pi/180 * self.xPosition
-            self.airplaneNode.eulerAngles.x += Float.pi/180 * self.yPosition
-        }
-    }
-    
-    // MARK: - Display Sum
-    func obtainAddends(){
-        
-        let sum: String = randomSum(0)
-        sumLabel.text = sum
-        
-    }
-    
-    struct CollisionCategory: OptionSet {
-        let rawValue: Int
-        static let airplaneCategory  = CollisionCategory(rawValue: 1 << 0)
-        static let ringCategory = CollisionCategory(rawValue: 1 << 1)
-    }
-    
-    func addRingsNodes(){
-        var angle:Float = 0.0
-        let radius:Float = 4.0
-        let angleIncrement:Float = Float.pi * 2.0 / 10.0
-        
-        for index in 0..<10 {
-            let node = SCNNode()
-            
-            let torus = SCNTorus(ringRadius: 0.4, pipeRadius: 0.05)
-            let color = UIColor(hue: 25.0 / 359.0, saturation: 0.8, brightness: 0.7, alpha: 1.0)
-            torus.firstMaterial?.diffuse.contents = color
-            
-            let x = radius * cos(angle)
-            let z = radius * sin(angle)
-            
-            node.position = SCNVector3(x: x, y: 0, z: z)
-            node.eulerAngles.x += Float.pi/2
-            angle += angleIncrement
-            
-            node.name = "ring\(index)"
-            node.geometry = torus
-            
-            let body = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: node))
-            node.physicsBody = body
-            node.physicsBody?.categoryBitMask = CollisionCategory.ringCategory.rawValue
-            node.physicsBody?.contactTestBitMask = CollisionCategory.airplaneCategory.rawValue
-            node.physicsBody?.collisionBitMask = CollisionCategory.airplaneCategory.rawValue
-            
-            sceneView.scene.rootNode.addChildNode(node)
-            
+        DispatchQueue.main.async {
+            self.scoreLabel.text = String(self.score)
         }
     }
 }
 
 
-extension ViewController: SCNPhysicsContactDelegate{
-    
-    func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
-        print("** Collision!! " + contact.nodeA.name! + " hit " + contact.nodeB.name!)
-
-    }
-    
-}

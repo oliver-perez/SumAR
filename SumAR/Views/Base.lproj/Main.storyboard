@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
-    <device id="ipad9_7" orientation="landscape">
+    <device id="retina4_0" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,84 +15,52 @@
             <objects>
                 <viewController id="BV1-FR-VrT" customClass="ViewController" customModule="SumAR" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="U0K-SW-4ec">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BrB-h1-WRS">
-                                <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                                <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                             </arscnView>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="91o-h7-gPb">
-                                <rect key="frame" x="14" y="685" width="118" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Suma" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1nc-OY-DBb">
+                                <rect key="frame" x="202" y="240" width="164" height="60"/>
+                                <color key="backgroundColor" red="0.0" green="0.32852089410000002" blue="0.57488495110000004" alpha="0.30597174657534248" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="29" id="Rjl-FH-lb9"/>
-                                    <constraint firstAttribute="width" constant="114" id="VIz-SG-m4I"/>
+                                    <constraint firstAttribute="height" constant="60" id="Ciw-FR-w0x"/>
+                                    <constraint firstAttribute="width" constant="164" id="WJy-dS-7NZ"/>
                                 </constraints>
-                                <connections>
-                                    <action selector="moveRightLeft:" destination="BV1-FR-VrT" eventType="valueChanged" id="3qv-vO-w3v"/>
-                                    <action selector="resetHorizontalDirection:" destination="BV1-FR-VrT" eventType="touchUpInside" id="MKL-TZ-4uM"/>
-                                </connections>
-                            </slider>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="NiF-yd-1dR">
-                                <rect key="frame" x="888" y="685" width="118" height="31"/>
-                                <connections>
-                                    <action selector="moveUpDown:" destination="BV1-FR-VrT" eventType="valueChanged" id="eua-h6-2TW"/>
-                                    <action selector="resetMoveUpDown:" destination="BV1-FR-VrT" eventType="touchUpInside" id="2KU-Yj-28e"/>
-                                </connections>
-                            </slider>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KRI-6L-NTQ">
-                                <rect key="frame" x="470.5" y="665" width="83" height="53"/>
-                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="37"/>
-                                <state key="normal" title="Start">
-                                    <color key="titleColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="startEngine:" destination="BV1-FR-VrT" eventType="touchUpInside" id="RSk-TV-ck0"/>
-                                </connections>
-                            </button>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Won-3d-ex6">
-                                <rect key="frame" x="247" y="684" width="118" height="30"/>
-                                <connections>
-                                    <action selector="speedControl:" destination="BV1-FR-VrT" eventType="valueChanged" id="0wc-ce-vI8"/>
-                                </connections>
-                            </slider>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Suma" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1nc-OY-DBb">
-                                <rect key="frame" x="417" y="565" width="190" height="50"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="40"/>
+                                <color key="textColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZhC-9Y-jaM">
+                                <rect key="frame" x="20" y="20" width="91" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="34"/>
-                                <color key="textColor" red="0.46202266219999999" green="0.83828371759999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.0" green="0.32852089410000002" blue="0.57488495110000004" alpha="0.3064265839041096" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="30"/>
+                                <color key="textColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Won-3d-ex6" firstAttribute="leading" secondItem="91o-h7-gPb" secondAttribute="trailing" constant="119" id="02j-ig-zWE"/>
-                            <constraint firstItem="NiF-yd-1dR" firstAttribute="leading" secondItem="BrB-h1-WRS" secondAttribute="trailing" constant="-134" id="9z8-B7-Ekr"/>
-                            <constraint firstItem="Won-3d-ex6" firstAttribute="height" secondItem="91o-h7-gPb" secondAttribute="height" id="Cpc-CX-PhX"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" id="GsS-dJ-CKf"/>
-                            <constraint firstItem="KRI-6L-NTQ" firstAttribute="bottom" secondItem="BrB-h1-WRS" secondAttribute="bottom" constant="-50" id="M0J-7c-9fA"/>
+                            <constraint firstItem="1nc-OY-DBb" firstAttribute="centerX" secondItem="U0K-SW-4ec" secondAttribute="centerX" id="OXE-eB-0ZH"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="bottom" secondItem="fQZ-KI-GVf" secondAttribute="bottom" id="VpT-BR-CcM"/>
-                            <constraint firstItem="91o-h7-gPb" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" constant="16" id="VwV-da-fZf"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="trailing" secondItem="fQZ-KI-GVf" secondAttribute="trailing" id="XyZ-9z-H8e"/>
-                            <constraint firstItem="NiF-yd-1dR" firstAttribute="width" secondItem="Won-3d-ex6" secondAttribute="width" id="d5u-TD-ONc"/>
-                            <constraint firstItem="KRI-6L-NTQ" firstAttribute="centerX" secondItem="U0K-SW-4ec" secondAttribute="centerX" id="fDo-Te-RQZ"/>
-                            <constraint firstItem="Won-3d-ex6" firstAttribute="top" secondItem="BrB-h1-WRS" secondAttribute="bottom" constant="-84" id="fdr-K7-c5l"/>
-                            <constraint firstItem="fQZ-KI-GVf" firstAttribute="bottom" secondItem="91o-h7-gPb" secondAttribute="bottom" constant="54" id="j8l-2r-33v"/>
-                            <constraint firstItem="Won-3d-ex6" firstAttribute="width" secondItem="91o-h7-gPb" secondAttribute="width" id="rJE-ve-6gf"/>
+                            <constraint firstItem="1nc-OY-DBb" firstAttribute="top" secondItem="BrB-h1-WRS" secondAttribute="bottom" constant="-80" id="cVM-DH-qgi"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="top" secondItem="U0K-SW-4ec" secondAttribute="top" id="rJc-2c-zQA"/>
-                            <constraint firstItem="NiF-yd-1dR" firstAttribute="top" secondItem="BrB-h1-WRS" secondAttribute="bottom" constant="-83" id="tWq-QJ-j6p"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fQZ-KI-GVf"/>
                     </view>
                     <connections>
-                        <outlet property="engineSlider" destination="Won-3d-ex6" id="cIP-wK-o4g"/>
-                        <outlet property="heightSlider" destination="NiF-yd-1dR" id="EBp-I1-rXK"/>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
+                        <outlet property="scoreLabel" destination="ZhC-9Y-jaM" id="gIP-vT-9cN"/>
                         <outlet property="sumLabel" destination="1nc-OY-DBb" id="t4H-Nb-57t"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="107.8125" y="75"/>
+            <point key="canvasLocation" x="-39.08450704225352" y="46.875"/>
         </scene>
     </scenes>
 </document>
