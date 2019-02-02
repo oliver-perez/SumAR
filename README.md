@@ -5,7 +5,7 @@ Videojuego educativo con el objetivo de enseñar a los niños de primaria a suma
 
 
 ![](Images/initialPosition.jpg)
-![](Images/airplane.jpg)
 ![](Images/rings.jpg)
+![](Images/airplane.jpg)
 ![](Images/explotion.jpg)
 ![](Images/flyingInTheAir.jpg)
